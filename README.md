@@ -128,11 +128,15 @@ cd packages/cli && npm pack   # CLI tarball
 
 ## Release (npm + GitHub)
 
-1. Bump `packages/cli/package.json` version
-2. Commit and tag: `git tag v0.1.0 && git push origin main --tags`
-3. GitHub Action publishes to [npm](https://www.npmjs.com/package/darin) and creates a GitHub Release
+1. Bump `packages/cli/package.json` version and commit to `main`
+2. Tag and push: `git tag v0.1.0 && git push origin v0.1.0`
 
-**One-time setup:** add `NPM_TOKEN` secret (npm granular token with publish access to `darin`).
+The release workflow will:
+- Generate **CHANGELOG.md** from commits since the last tag
+- Publish **`darin`** to [npm](https://www.npmjs.com/package/darin)
+- Create a **GitHub Release** with the same changelog notes
+
+**One-time setup:** add `NPM_TOKEN` secret (npm automation token with publish access to `darin`).
 
 ## Links
 

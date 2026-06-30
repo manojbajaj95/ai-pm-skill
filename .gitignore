@@ -5,3 +5,4 @@ dist/
 packages/cli/darin-*.tgz
 packages/cli/vendor/
 node_modules/
+release-notes.md

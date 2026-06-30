@@ -1,17 +1,15 @@
 name: Release
 
-# Publish darin npm package + GitHub Release on version tag.
+# On version tag push: generate changelog → publish npm → GitHub Release → commit CHANGELOG.md
 #
 # Setup (one-time):
-#   1. npmjs.com → Access Tokens → Granular token
-#      - Packages: darin (read + write)
-#      - Enable "Bypass 2FA for automation" / automation token
-#   2. GitHub repo → Settings → Secrets → Actions → NPM_TOKEN
+#   GitHub → Settings → Secrets → Actions → NPM_TOKEN
+#   (npm granular/automation token with publish access to package "darin")
 #
-# Ship a release:
-#   1. Bump version in packages/cli/package.json
-#   2. git commit -m "chore: release v0.1.1"
-#   3. git tag v0.1.1 && git push origin main --tags
+# Ship:
+#   1. Bump packages/cli/package.json version
+#   2. git commit -m "chore: release v0.1.1" && git push
+#   3. git tag v0.1.1 && git push origin v0.1.1
 
 on:
   push:
@@ -27,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -34,6 +34,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Verify tag matches package version
+        id: meta
         run: |
           PKG_VERSION=$(jq -r .version packages/cli/package.json)
           TAG_VERSION="${GITHUB_REF_NAME#v}"
@@ -41,7 +42,14 @@ jobs:
             echo "::error::Tag v${TAG_VERSION} does not match packages/cli/package.json ($PKG_VERSION)"
             exit 1
           fi
+          echo "version=${PKG_VERSION}" >> "$GITHUB_OUTPUT"
           echo "Releasing darin@${PKG_VERSION}"
+
+      - name: Generate changelog
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+          TAG: ${{ github.ref_name }}
+        run: node .github/scripts/generate-changelog.mjs
 
       - name: Test CLI before publish
         working-directory: packages/cli
@@ -61,7 +69,21 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
-          name: darin ${{ github.ref_name }}
+          name: darin v${{ steps.meta.outputs.version }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit CHANGELOG.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          if git diff --staged --quiet; then
+            echo "No CHANGELOG changes"
+            exit 0
+          fi
+          git commit -m "docs: update CHANGELOG for ${{ github.ref_name }}"
+          git push origin main
