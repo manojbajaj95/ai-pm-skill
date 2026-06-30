@@ -1,14 +1,15 @@
-name: Release Please
+name: release-please
 
-# Google's release-please: auto changelog + release PR + GitHub Release on merge.
 # https://github.com/googleapis/release-please
+# https://github.com/googleapis/release-please-action
 #
-# Flow:
-#   1. Push conventional commits to main (feat:, fix:, docs:, etc.)
-#   2. Release Please opens PR with CHANGELOG + version bump
-#   3. Merge PR → tag vX.Y.Z + GitHub Release + npm publish
+# Release Please opens/updates a Release PR with CHANGELOG + version bump.
+# Merge that PR → GitHub Release + tag. npm publish runs when release is created.
 #
-# Setup: GitHub secret NPM_TOKEN (npm automation token for package "darin")
+# Commits must follow Conventional Commits: feat:, fix:, docs:, etc.
+# https://www.conventionalcommits.org/
+#
+# Secrets: NPM_TOKEN (npm automation token for package "darin")
 
 on:
   push:
@@ -17,6 +18,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
   id-token: write
 
@@ -28,20 +30,22 @@ jobs:
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
       - uses: actions/checkout@v4
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs['packages/cli--release_created'] == 'true' }}
         with:
-          ref: ${{ steps.release.outputs.tag_name }}
+          ref: ${{ steps.release.outputs['packages/cli--tag_name'] }}
 
       - uses: actions/setup-node@v4
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs['packages/cli--release_created'] == 'true' }}
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Test CLI
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs['packages/cli--release_created'] == 'true' }}
         working-directory: packages/cli
         run: |
           node scripts/prepack.mjs
@@ -51,7 +55,7 @@ jobs:
           test -f /tmp/darin-release-test/.cursor/skills/darin/SKILL.md
 
       - name: Publish to npm
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs['packages/cli--release_created'] == 'true' }}
         working-directory: packages/cli
         run: npm publish --access public --provenance
         env:

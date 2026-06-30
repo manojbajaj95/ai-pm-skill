@@ -128,18 +128,15 @@ cd packages/cli && npm pack   # CLI tarball
 
 ## Release (automated)
 
-Uses [release-please](https://github.com/googleapis/release-please) (Google) — changelog and version bumps are automatic.
+Uses **[release-please](https://github.com/googleapis/release-please)** — see [RELEASE.md](RELEASE.md) for full docs.
 
-1. Push **conventional commits** to `main`:
-   - `feat: add workspace list command`
-   - `fix: install target path parsing`
-   - `docs: update README`
-2. Release Please opens a PR with **CHANGELOG.md** + version bump
-3. **Merge the PR** → GitHub Release + npm publish (`darin@x.y.z`)
+1. Push **[Conventional Commits](https://www.conventionalcommits.org/)** to `main` (`feat:`, `fix:`, …)
+2. Release Please opens a **Release PR** with `CHANGELOG.md` + version bump
+3. **Merge the PR** → GitHub Release + `npm publish` (`darin@x.y.z`)
 
-**One-time setup:** `NPM_TOKEN` secret (npm automation token with publish access to `darin`).
+**Setup:** `NPM_TOKEN` GitHub secret. Enable **Allow GitHub Actions to create and approve pull requests** in repo Settings → Actions.
 
-Changelog lives at [`packages/cli/CHANGELOG.md`](packages/cli/CHANGELOG.md).
+Changelog: [`packages/cli/CHANGELOG.md`](packages/cli/CHANGELOG.md)
 
 ## Links
 

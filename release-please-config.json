@@ -1,11 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "966cefaf6baf1b2ded651b398dec8ad4e8782374",
+  "plugins": ["node-workspace"],
   "packages": {
     "packages/cli": {
       "release-type": "node",
       "component": "darin",
       "include-component-in-tag": false,
-      "changelog-path": "CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md",
+      "bump-patch-for-minor-pre-major": true
     }
   },
   "changelog-sections": [
@@ -15,7 +18,10 @@
     { "type": "docs", "section": "Documentation" },
     { "type": "chore", "section": "Miscellaneous", "hidden": true },
     { "type": "refactor", "section": "Code Refactoring", "hidden": true },
-    { "type": "test", "section": "Tests", "hidden": true }
+    { "type": "test", "section": "Tests", "hidden": true },
+    { "type": "ci", "section": "Continuous Integration", "hidden": true }
   ],
-  "pull-request-title-pattern": "chore: release darin ${version}"
+  "pull-request-title-pattern": "chore: release darin ${version}",
+  "changelog-host": "https://github.com",
+  "include-v-in-tag": true
 }
