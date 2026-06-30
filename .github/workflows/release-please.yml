@@ -1,0 +1,58 @@
+name: Release Please
+
+# Google's release-please: auto changelog + release PR + GitHub Release on merge.
+# https://github.com/googleapis/release-please
+#
+# Flow:
+#   1. Push conventional commits to main (feat:, fix:, docs:, etc.)
+#   2. Release Please opens PR with CHANGELOG + version bump
+#   3. Merge PR → tag vX.Y.Z + GitHub Release + npm publish
+#
+# Setup: GitHub secret NPM_TOKEN (npm automation token for package "darin")
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          ref: ${{ steps.release.outputs.tag_name }}
+
+      - uses: actions/setup-node@v4
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Test CLI
+        if: ${{ steps.release.outputs.release_created }}
+        working-directory: packages/cli
+        run: |
+          node scripts/prepack.mjs
+          node bin/darin.mjs --version
+          mkdir -p /tmp/darin-release-test/.cursor
+          node bin/darin.mjs install -y --target /tmp/darin-release-test --providers=cursor
+          test -f /tmp/darin-release-test/.cursor/skills/darin/SKILL.md
+
+      - name: Publish to npm
+        if: ${{ steps.release.outputs.release_created }}
+        working-directory: packages/cli
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
