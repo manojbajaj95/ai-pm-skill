@@ -19,7 +19,7 @@ Built for small teams: three things you do all the time (`init`, `ingest`, `plan
 - `{{command_prefix}}darin ingest notes/interview-acme.md` — file something you learned into memory and note what it might mean.
 - `{{command_prefix}}darin plan invite friction` — turn a problem into a scoped brief: what to build now, what's next, what to skip.
 - `{{command_prefix}}darin insights landing page` — compare landing page source in this repo to your product memory; same for `pricing`, `onboarding`, `docs`, `seo`.
-- `{{command_prefix}}darin insights docs` — quick aha after init: compare README (or other docs) to product memory without customer research yet.
+- `{{command_prefix}}darin insights` — after init: compare a product surface in the repo to product memory; Darin discovers what to check
 
 ## Setup
 

@@ -29,6 +29,40 @@ node scripts/build.mjs                # all harnesses → dist/
 node scripts/build.mjs --also-cursor  # also refresh local .cursor working copy
 ```
 
+## Insights and recipes
+
+`insights` compares **product surface in the codebase** to Darin memory (`PRODUCT.md`, `STRATEGY.md`, `hypotheses/`, `ingestion/`). It answers: *does what we ship/say in code match what we believe and what customers told us?*
+
+**Not `review`.** `review` sweeps internal memory for stale evidence and strategy drift. `insights` looks outward at landing pages, docs, onboarding, etc. in the current repo checkout.
+
+**Codebase only.** Insights never fetches live URLs or uses the browser. If the user passes a URL, ask for the repo path instead.
+
+### Recipes
+
+A **recipe** is an audit playbook: how to find relevant files in the repo and what product checks to run. Users invoke with natural phrases (`/darin insights landing page`, `/darin insights pricing`) — the router maps phrase → recipe.
+
+| Recipe | User might say | Reference |
+|--------|----------------|-----------|
+| `landing` | landing page, homepage | `skill/reference/insights/landing.md` |
+| `pricing` | pricing, plans, billing | `skill/reference/insights/pricing.md` |
+| `onboarding` | onboarding, signup, first run | `skill/reference/insights/onboarding.md` |
+| `docs` | docs, documentation, README | `skill/reference/insights/docs.md` |
+| `seo` | seo, meta tags, page titles | `skill/reference/insights/seo.md` |
+
+Registry and file-discovery globs live in `skill/scripts/insights-recipes.json`. Routing script: `skill/scripts/insights-route.mjs` (phrase → recipe + `discovered_files` in cwd).
+
+Reports save to `~/.darin/workspaces/<slug>/insights/YYYY-MM-DD-<recipe>.md` using `skill/templates/insights-report.md`.
+
+**First insights run:** `/darin insights` — Darin discovers landing, docs, pricing, onboarding, or other surfaces in the repo. Works right after `init`, no ingest required.
+
+### Adding a recipe
+
+1. Add entry to `insights-recipes.json` (`keywords`, `globs`, `path_hints`)
+2. Add `skill/reference/insights/<recipe>.md` with recipe-specific checks
+3. No change to `command-metadata.json` unless renaming the command itself — recipes are sub-targets of `insights`
+
+Run `node skill/scripts/insights-route.mjs --json --target "<phrase>" --cwd <repo>` to smoke-test discovery.
+
 ## Good to know
 
 - The commands table in `SKILL.md` **and** the `argument-hint` are generated from `skill/scripts/command-metadata.json` (its `order` array). Add/rename/remove a command there, not by hand.

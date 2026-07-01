@@ -6,7 +6,11 @@ Read this entire file, then follow the steps in order. Ask the user questions wh
 
 ## What you are installing
 
-**Darin** is an agent skill that acts as a product manager: ingest research, plan features, generate insights from your codebase, and maintain strategy alignment. It is **not** tied to a git repo — one workspace slug (e.g. `acme`) is shared across landing, API, mobile, and monorepo checkouts.
+**Darin** is **decision memory** for small teams using coding agents. Coding agents made writing code cheap; **planning** is the new bottleneck. Darin is a skill inside Cursor, Claude Code, Codex, Gemini CLI, or any Agent Skills harness — not a separate app to open.
+
+The core loop: **capture what you learn, check what you ship, then plan what to build.** Feed it interviews, support tickets, or usage numbers — Darin separates observations, guesses, and committed decisions. **`/darin insights`** spot-checks landing, docs, pricing, or onboarding **in the repo** (codebase files only — no live URLs) against product memory. **`/darin plan`** pulls from what the user has captured — not a blank page.
+
+It is **not** tied to a git repo — one workspace slug (e.g. `acme`) is shared across landing, API, mobile, and monorepo checkouts. Everything stays plain markdown in `~/.darin/`. Nothing to sign up for.
 
 **Repo:** [github.com/manojbajaj95/darin-skill](https://github.com/manojbajaj95/darin-skill) · **Website:** [getdarin.com](https://getdarin.com)
 
@@ -223,23 +227,17 @@ Invoke Darin once to confirm the skill loads:
 /darin
 ```
 
-Bare `/darin` should recommend 2–3 next commands based on project signals (e.g. ingest research, run insights on docs, plan a feature).
+Bare `/darin` should recommend 2–3 next commands based on project signals (e.g. ingest research, run insights, plan a feature).
 
-**Install is complete when:** skill installed, init interview done (Steps 3–4), and `/darin` smoke test passes. You do not need to run ingest, insights, or plan before declaring success.
+**Install is complete when:** skill installed, init interview done (Steps 3–4), and `/darin` smoke test passes.
 
-**Quick aha (optional, ~2 min):** show the product working without waiting for customer research:
+**User is set up when:** they've also run at least one **`/darin ingest`** and one **`/darin insights`**. Guide them through both before closing if time allows. For insights, invoke **`/darin insights`** and let Darin discover what to check — landing page, docs, pricing, onboarding, or whatever exists in the repo. No customer research required for a first run.
 
-```
-/darin insights docs
-```
-
-Point at `README.md` in the project repo. Darin compares the copy to `PRODUCT.md` and `STRATEGY.md` and flags gaps — fastest way to see insights in action after init.
-
-Optional follow-up tests (core loop, in order):
+**Activation loop** (run in order when guiding the user):
 
 ```
 /darin ingest [paste a short customer note or path to a file]
-/darin insights docs
+/darin insights
 /darin plan [a problem the user cares about]
 ```
 
@@ -259,10 +257,9 @@ Same workspace works from every repo for this product:
 
 Commands: /darin init | ingest | insights | plan | prioritize | review
 
-Quick aha: /darin insights docs  (compare README.md to your product memory)
+You're set up when you've run init, filed at least one ingest, and tried insights once.
 
-When you want to go deeper, run the core loop in order:
-  ingest → insights → plan
+Core loop (in order): init → ingest → insights → plan
 ```
 
 ## Multi-repo setup (if user has multiple code repos)
