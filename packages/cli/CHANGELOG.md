@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/manojbajaj95/ai-pm-skill/compare/v0.1.1...v0.1.2) (2026-07-01)
+
+
+### Bug Fixes
+
+* rename npm package to @getdarin/cli and publish via trusted publishing ([cfa72cf](https://github.com/manojbajaj95/ai-pm-skill/commit/cfa72cf608989a508c5ca1e77b12cfe4642ca031))
+
 ## [0.1.1](https://github.com/manojbajaj95/ai-pm-skill/compare/v0.1.0...v0.1.1) (2026-07-01)
 
 

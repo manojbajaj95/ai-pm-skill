@@ -1,6 +1,6 @@
 {
   "name": "@getdarin/cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Darin — AI product manager skill for Cursor, Claude Code, Codex & agent harnesses. Install with npx @getdarin/cli install.",
   "license": "Apache-2.0",
   "type": "module",
