@@ -142,10 +142,8 @@ This creates `~/.darin/workspaces/acme/`, sets `active_workspace` in `~/.darin/c
     ├── source/{interviews,meetings,market,adhoc}/
     ├── ingestion/{interviews,meetings,market,adhoc}/
     ├── hypotheses/
-    ├── stakeholders/
-    ├── knowledge/
-    ├── maintenance/log/
-    └── critique/
+    ├── features/
+    └── maintenance/log/
 ```
 
 Verify:
@@ -167,14 +165,11 @@ Interview the user (conversationally — do not dump a form). Cover at minimum:
 | Stage (early / growth / mature) | `PRODUCT.md` |
 | Users and job-to-be-done | `PRODUCT.md` |
 | Core problem and why now | `PRODUCT.md` |
-| Vision (one paragraph) | `PRODUCT.md` |
-| Anti-references (what NOT to build) | `PRODUCT.md` |
-| 2–3 product principles | `PRODUCT.md` |
 | North-star metric | `STRATEGY.md` |
 | Current bets (1–3 sharp bets) | `STRATEGY.md` |
 | Non-goals this quarter | `STRATEGY.md` |
 | Constraints (team, runway, platform) | `STRATEGY.md` |
-| Open tensions (strategy vs reality) | `STRATEGY.md` |
+| Anything else worth capturing (optional) | `PRODUCT.md § Notes` |
 
 **Optional:** ask which repos touch this product (landing, api, admin) and append paths to `manifest.json` → `linked_repos` (reference only — not used for routing).
 
@@ -187,18 +182,12 @@ Ensure `~/.darin/config.json` includes:
 
 ```json
 {
-  "autonomy": "confirm",
   "active_workspace": "acme",
   "version": "0.3.0"
 }
 ```
 
-| `autonomy` | Behavior |
-|------------|----------|
-| `confirm` | Agent proposes updates to hypotheses/strategy; user confirms (default) |
-| `act` | Agent writes durable memory without asking |
-
-Ask the user which they prefer unless they want the default (`confirm`).
+Darin always proposes updates to `hypotheses/` or `STRATEGY.md` and waits for user confirmation before writing — there's no config toggle for this, it's the default.
 
 ## Step 5: Verify the install
 
@@ -222,19 +211,7 @@ If `context.mjs` prints `NO_PRODUCT_MD`, return to Step 4.
 
 If `workspace.mjs` prints `NO_ACTIVE_WORKSPACE`, run `--use <slug>` or re-run scaffold.
 
-## Step 6: Pin shortcuts (optional)
-
-Offer to pin frequently used commands as standalone `/plan`, `/ingest`, etc. shortcuts:
-
-```bash
-node .cursor/skills/darin/scripts/pin.mjs pin plan
-node .cursor/skills/darin/scripts/pin.mjs pin ingest
-node .cursor/skills/darin/scripts/pin.mjs pin review
-```
-
-Valid commands: `init`, `ingest`, `discover`, `shape`, `plan`, `prioritize`, `spec`, `prep`, `critique`, `review`.
-
-## Step 7: Smoke test in chat
+## Step 6: Smoke test in chat
 
 Invoke Darin once to confirm the skill loads:
 
@@ -251,7 +228,7 @@ Optional follow-up tests:
 /darin shape [a problem the user cares about]
 ```
 
-## Step 8: Close — tell the user
+## Step 7: Close — tell the user
 
 Report clearly:
 
@@ -260,13 +237,12 @@ Darin is ready.
 
 Active workspace: <slug>
 Storage: ~/.darin/workspaces/<slug>/
-Autonomy: confirm | act
 
 Same workspace works from every repo for this product:
   export DARIN_SLUG=<slug>   # optional, in shell profile
   or set active_workspace in ~/.darin/config.json
 
-Commands: /darin ingest | shape | plan | spec | prep | critique | review
+Commands: /darin ingest | shape | prioritize | spec | review
 ```
 
 ## Multi-repo setup (if user has multiple code repos)
@@ -274,7 +250,7 @@ Commands: /darin ingest | shape | plan | spec | prep | critique | review
 One slug, many repos. Set once:
 
 ```bash
-echo '{ "autonomy": "confirm", "active_workspace": "acme", "version": "0.3.0" }' > ~/.darin/config.json
+echo '{ "active_workspace": "acme", "version": "0.3.0" }' > ~/.darin/config.json
 ```
 
 Or in `~/.zshrc` / `~/.bashrc`:
@@ -303,8 +279,7 @@ After install, before any Darin command:
 
 1. Run `node .cursor/skills/darin/scripts/workspace.mjs --json` to resolve `workspace_root`
 2. Run `node .cursor/skills/darin/scripts/context.mjs` to load PRODUCT + STRATEGY
-3. Read `.cursor/skills/darin/reference/pm.md` for PM register
 
-When the user invokes a sub-command (`/darin plan`, `/plan`, etc.), read `.cursor/skills/darin/reference/<command>.md` next.
+When the user invokes a sub-command (`/darin shape`, etc.), read `.cursor/skills/darin/reference/<command>.md` next.
 
-**Never** infer workspace from git root. **Never** skip provenance tags on durable claims. **Never** promote one-off anecdotes to strategy without user confirmation (unless `autonomy: act`).
+**Never** infer workspace from git root. **Never** promote one-off anecdotes to strategy without user confirmation — durable writes to `hypotheses/` or `STRATEGY.md` always get a confirm step.

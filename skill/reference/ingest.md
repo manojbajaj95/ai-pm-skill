@@ -2,6 +2,16 @@
 
 Route a new artifact into product memory. One verb, four shapes.
 
+## Haven't talked to anyone yet?
+
+If the user wants help planning a customer call before they have anything to ingest, do this first:
+
+- Ask: what decision does this interview inform? Who's the ideal participant? What would change your mind?
+- Give 5–8 Mom Test-style questions (past behavior, not hypotheticals — "walk me through the last time..." not "would you use...").
+- Note what **not** to ask: no solution pitching, no "would you use this."
+
+Then, after the call happens, come back and ingest the transcript. Planning without a follow-up ingest is wasted effort — always point back here.
+
 ## Input
 
 Transcript, file path, paste, screenshot description, URL, or chat note. Target comes from the invocation: `/darin ingest path/to/file.md` or pasted content.
@@ -30,33 +40,26 @@ Resolve `workspace_root` via `workspace.mjs --json`, then load from there:
 - `STRATEGY.md` at workspace root
 - Active `hypotheses/*.md` that the artifact might touch
 - Last 2–3 files in matching `ingestion/<directory>/` (see table above)
-- Relevant `stakeholders/<slug>.md` if a person is named
 
 ## Step 3: Write (in order)
 
 1. **`source/<directory>/YYYY-MM-DD-<slug>.md`** — immutable copy of the original (or faithful transcript). Never edit after write.
-2. **`ingestion/<directory>/YYYY-MM-DD-<slug>.md`** — synthesis with tagged observations:
-   - `(observation)` — what was said or shown
-   - `(interpretation)` — what it might mean
-   - `(hypothesis)` — testable belief suggested
-   - `(assumption)` — unstated belief to validate
-3. **Durable updates (propose, confirm unless autonomy act):**
-   - `hypotheses/<slug>.md` — new evidence rows
-   - `stakeholders/<slug>.md` — touchpoint log
-   - `knowledge/users/insights.md` — promoted recurring themes (create if needed)
-   - `STRATEGY.md § Open tensions` — if strategy conflict surfaced
+2. **`ingestion/<directory>/YYYY-MM-DD-<slug>.md`** — plain-language synthesis: what was said, what it might mean, and any testable belief it suggests. Say clearly which parts are your interpretation vs. what was actually said.
+3. **Durable updates (propose, always confirm with the user first):**
+   - `hypotheses/<slug>.md` — new evidence
+   - `STRATEGY.md § Open tensions` — if a strategy conflict surfaced
 
-Every evidence row in durable files carries a provenance tag linking to `ingestion/` or `source/`.
+When you cite this evidence later, just point at the file (e.g. "per `ingestion/interviews/2026-01-01-acme.md`") — no special tag syntax needed.
 
 ## Step 4: Surface to user
 
-Short routing summary (Type A output):
+Short routing summary:
 
 - Where the artifact landed
 - 1–3 themes promoted or proposed for promotion
 - Contradictions with prior evidence (preserved, not resolved)
 - One open question if judgment is needed
-- Suggested next: `shape`, `plan`, or `prep`
+- Suggested next: `shape` or `prioritize`
 
 ## Anti-patterns
 

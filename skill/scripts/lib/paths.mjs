@@ -152,12 +152,8 @@ export function ensureWorkspaceScaffold(slug, meta = {}) {
     'ingestion/market',
     'ingestion/adhoc',
     'hypotheses',
-    'stakeholders',
-    'knowledge/users',
-    'knowledge/product/features',
+    'features',
     'maintenance/log',
-    'critique',
-    'decisions',
   ];
   for (const d of dirs) {
     fs.mkdirSync(path.join(root, d), { recursive: true });
@@ -185,7 +181,7 @@ export function ensureWorkspaceScaffold(slug, meta = {}) {
   );
 
   if (!fs.existsSync(globalConfigPath())) {
-    saveGlobalConfig({ autonomy: 'confirm', version: '0.3.0' });
+    saveGlobalConfig({ version: '0.3.0' });
   }
   setActiveWorkspace(s);
   return root;

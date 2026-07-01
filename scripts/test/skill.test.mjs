@@ -18,13 +18,12 @@ const SCRIPTS = path.join(REPO_ROOT, 'skill', 'scripts');
 test('command metadata has stable order and table rows', () => {
   const meta = loadCommandMetadata(REPO_ROOT);
   const ids = commandIds(meta);
-  assert.equal(ids.length, 10);
-  assert.ok(ids.includes('discover'));
+  assert.equal(ids.length, 6);
   assert.ok(ids.includes('prioritize'));
   const table = renderCommandsTable(meta);
-  assert.match(table, /`discover`/);
-  assert.match(table, /reference\/plan\.md/);
-  assert.equal(commandHint(meta).split(' · ').length, 10);
+  assert.match(table, /`shape`/);
+  assert.match(table, /reference\/shape\.md/);
+  assert.equal(commandHint(meta).split(' · ').length, 6);
 });
 
 test('ingest-route fails without active workspace', () => {
@@ -66,7 +65,6 @@ test('context-signals reports maintenance fields', () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
   const root = path.join(home, 'workspaces', 'acme');
   fs.mkdirSync(path.join(root, 'hypotheses'), { recursive: true });
-  fs.mkdirSync(path.join(root, 'stakeholders'), { recursive: true });
   fs.mkdirSync(home, { recursive: true });
   fs.writeFileSync(path.join(home, 'config.json'), JSON.stringify({ active_workspace: 'acme' }, null, 2));
   fs.writeFileSync(path.join(root, 'PRODUCT.md'), '# Product\n');
@@ -75,9 +73,6 @@ test('context-signals reports maintenance fields', () => {
     '# Strategy\n\n## Open tensions\n\n- Bet A vs capacity\n',
   );
   fs.writeFileSync(path.join(root, 'hypotheses', 'invite.md'), '# Invite\n\n## Problem\n\nx\n');
-  fs.writeFileSync(path.join(root, 'stakeholders', 'talia.md'), '# Talia\n');
-  const old = Date.now() - 25 * 86400000;
-  fs.utimesSync(path.join(root, 'stakeholders', 'talia.md'), old / 1000, old / 1000);
 
   const result = spawnSync(
     process.execPath,
@@ -86,12 +81,11 @@ test('context-signals reports maintenance fields', () => {
   );
   assert.equal(result.status, 0, result.stderr);
   const signals = JSON.parse(result.stdout);
-  assert.equal(signals.stakeholders.stale.length, 1);
   assert.equal(signals.maintenance.decisionDebt.missingMetrics.length, 1);
   assert.equal(signals.maintenance.openTensions.count, 1);
 });
 
-test('workspace scaffold creates decisions directory', async () => {
+test('workspace scaffold creates features directory', async () => {
   const { ensureWorkspaceScaffold } = await import(
     path.join(REPO_ROOT, 'skill', 'scripts', 'lib', 'paths.mjs')
   );
@@ -100,7 +94,7 @@ test('workspace scaffold creates decisions directory', async () => {
   process.env.DARIN_HOME = home;
   try {
     const root = ensureWorkspaceScaffold('acme-test');
-    assert.ok(fs.existsSync(path.join(root, 'decisions')));
+    assert.ok(fs.existsSync(path.join(root, 'features')));
   } finally {
     if (prev === undefined) delete process.env.DARIN_HOME;
     else process.env.DARIN_HOME = prev;
@@ -113,7 +107,7 @@ test('build expands commands table placeholder', async () => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-build-'));
   const skillDir = buildProviderSkill({ repoRoot: REPO_ROOT, provider: PROVIDERS.cursor, destRoot: out });
   const skill = fs.readFileSync(path.join(skillDir, 'SKILL.md'), 'utf8');
-  assert.match(skill, /`discover`/);
+  assert.match(skill, /`shape`/);
   assert.doesNotMatch(skill, /\{\{commands_table\}\}/);
   assert.match(skill, /user-invocable: true/);
   assert.match(skill, /argument-hint:/);

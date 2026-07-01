@@ -57,21 +57,17 @@ Set it with `active_workspace` in `~/.darin/config.json`, or `export DARIN_SLUG=
 | Command | Purpose |
 |---------|---------|
 | `/darin init` | Product workspace + PRODUCT.md / STRATEGY.md |
-| `/darin ingest` | Route research into memory |
-| `/darin discover` | Plan a Mom Test-style discovery interview |
-| `/darin shape` | Problem → scoped feature brief |
-| `/darin plan` | Objective → six-block plan |
-| `/darin prioritize` | Adaptive prioritization (RICE, ICE, value/effort, …) |
-| `/darin spec` | PRD-lite / user stories |
-| `/darin prep` | Pre-meeting stakeholder brief |
-| `/darin critique` | Strategy alignment review |
+| `/darin ingest` | Route research into memory, or plan a discovery interview |
+| `/darin shape` | Problem or objective → scoped feature brief |
+| `/darin prioritize` | Quick prioritization framework pick (RICE, ICE, value/effort, …) |
+| `/darin spec` | Optional PRD-lite / user stories, when you need a written handoff |
 | `/darin review` | Weekly maintenance sweep |
 
 Not sure where to start? Just type `/darin` on its own and it'll suggest what to run next based on what's going on in your project.
 
 ### Works the same everywhere
 
-One `/darin` command routes to whichever playbook you need, so you're not memorizing ten different commands across ten different tools. Tired of typing `/darin plan`? Pin it: `/darin pin plan` turns it into a plain `/plan` shortcut.
+One `/darin` command routes to whichever playbook you need, so you're not memorizing a dozen different commands across a dozen different tools.
 
 ## Where data lives
 

@@ -2,13 +2,9 @@
   "order": [
     "init",
     "ingest",
-    "discover",
     "shape",
-    "plan",
     "prioritize",
     "spec",
-    "prep",
-    "critique",
     "review"
   ],
   "init": {
@@ -18,23 +14,13 @@
   },
   "ingest": {
     "category": "Input",
-    "description": "Route artifact into source + ingestion + durable updates",
+    "description": "Route artifact into source + ingestion + durable updates; also plans discovery interviews",
     "argumentHint": "[file path, paste, or description]"
-  },
-  "discover": {
-    "category": "Input",
-    "description": "Plan a Mom Test-style discovery interview for a learning goal",
-    "argumentHint": "[learning goal or decision]"
   },
   "shape": {
     "category": "Plan",
-    "description": "Turn a problem into a scoped feature brief with hypotheses and metrics",
-    "argumentHint": "[feature or problem area]"
-  },
-  "plan": {
-    "category": "Plan",
-    "description": "Six-block plan: know, assume, interview, hypothesize, experiment, decide",
-    "argumentHint": "[objective]"
+    "description": "Turn a problem or objective into a scoped feature brief with hypotheses and metrics",
+    "argumentHint": "[feature, problem area, or objective]"
   },
   "prioritize": {
     "category": "Plan",
@@ -43,22 +29,12 @@
   },
   "spec": {
     "category": "Deliver",
-    "description": "Feature brief to PRD-lite with user stories and acceptance criteria",
+    "description": "Optional: feature brief to PRD-lite with user stories and acceptance criteria",
     "argumentHint": "[feature slug or name]"
-  },
-  "prep": {
-    "category": "Deliver",
-    "description": "One-page brief before a stakeholder meeting",
-    "argumentHint": "[stakeholder name or slug]"
-  },
-  "critique": {
-    "category": "Evaluate",
-    "description": "Strategy alignment review with P0–P3 findings",
-    "argumentHint": "[area optional]"
   },
   "review": {
     "category": "Maintain",
-    "description": "Weekly maintenance sweep for stale evidence and strategy drift",
+    "description": "Weekly maintenance sweep for stale evidence, strategy drift, and alignment",
     "argumentHint": ""
   }
 }

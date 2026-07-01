@@ -8,25 +8,15 @@ Status: candidate | proposed | confirmed | rejected
 
 ## Evidence for
 
-| Claim | Provenance |
-|-------|------------|
-| | |
+- [claim] — (source: file or who said it, date)
 
 ## Evidence against
 
-| Claim | Provenance |
-|-------|------------|
-| | |
+- [claim] — (source: file or who said it, date)
 
 ## Test
 
 [How we would validate or falsify]
-
-## Success metrics
-
-| Metric | Target | Source |
-|--------|--------|--------|
-| | | |
 
 ## Decision trigger
 

@@ -1,6 +1,6 @@
-# Spec flow
+# Spec flow (optional)
 
-Feature brief → shippable spec (PRD-lite).
+Feature brief → shippable spec (PRD-lite). Most small teams can build straight from the `shape` brief and skip this — use `spec` when you actually need a written handoff for someone else (an engineer, a contractor, a future you).
 
 ## Prerequisite
 
@@ -16,7 +16,7 @@ Load `hypotheses/<slug>.md` or output from a prior `shape`. If missing, run `sha
 ## User stories (Mike Cohn + Gherkin acceptance criteria)
 ## Success metrics
 ## Risks & edge cases
-## Open questions (Assumption / Open question tags)
+## Open questions
 ## Out of scope
 ```
 
@@ -24,7 +24,7 @@ Load `hypotheses/<slug>.md` or output from a prior `shape`. If missing, run `sha
 
 - Every story ties to a hypothesis or metric in STRATEGY.md
 - Call out at least one anti-pattern risk in Risks section
-- Tag gaps: **Assumption** or **Open question**
-- Do not invent metrics user hasn't defined; flag as Open question
+- Flag anything unconfirmed as an open question rather than stating it as fact
+- Do not invent metrics user hasn't defined; flag as open question
 
-Save to `<workspace_root>/knowledge/product/features/<slug>.md` if user wants persistence.
+Save to `<workspace_root>/features/<slug>.md` if user wants persistence.

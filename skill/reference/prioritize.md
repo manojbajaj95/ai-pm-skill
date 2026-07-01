@@ -1,32 +1,28 @@
 # Prioritize flow
 
-Adaptive Decision Ladder: 3–4 questions, then a framework recommendation with implementation steps.
+Quick path to a prioritization framework, then apply it.
 
-## Questions (ask only what context doesn't answer)
+## Step 1: Get just enough context
 
-1. **Stage** — early / growth / mature (or read from PRODUCT.md)
-2. **Challenge** — too many ideas, stakeholder misalignment, need data, strategic vs quick wins
-3. **Data availability** — minimal / some / rich metrics
-4. **Audience** — solo founder, aligned team, multi-stakeholder org
+Check `PRODUCT.md` for stage first; only ask what it doesn't answer:
 
-Offer numbered options at each step when asking.
+- Rough stage: early / growth / mature
+- What's the actual problem — too many ideas, need a tiebreaker, or a hard deadline?
 
-## Framework menu
+## Step 2: Recommend a framework
 
 | Framework | Use when |
 |-----------|----------|
-| ICE | Early stage, speed, gut-check |
-| Value / effort 2×2 | Stakeholder alignment, visual tradeoffs |
-| RICE | Growth+, some usage data |
-| MoSCoW | Hard cut for fixed deadline |
-| Cost of delay | Time-sensitive, queue discipline |
+| ICE | Early stage, no usage data yet, need a fast gut-check |
+| Value / effort 2×2 | You need a visual to align a couple of people |
+| RICE | Growth+, you have some real usage data |
+| MoSCoW | Hard deadline, need to cut scope fast |
+| Cost of delay | Time-sensitive, queue of competing asks |
 
-## Output
+Default to ICE for early-stage, RICE once there's real usage data — don't make the user pick from scratch if the context already answers it.
 
-- Recommended framework with **why** for this context
-- 4-step implementation
-- Example scoring table for 3 sample items from user's backlog if provided
-- **Common pitfalls** for that framework
-- **When to reassess**
+## Step 3: Apply it
 
-If user supplied a target list, rank top items. Scores inform; PM judgment overrides.
+- If the user supplied a backlog, score the top items and rank them
+- Give one line on the biggest pitfall of the chosen framework (e.g. RICE: reach numbers get fudged; ICE: too subjective without a shared rubric)
+- Scores inform the call; PM judgment overrides ties or close scores

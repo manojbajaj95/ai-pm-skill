@@ -176,11 +176,8 @@ export async function ensureDefaultWorkspace({ slug = 'default', name = 'My prod
     'ingestion/market',
     'ingestion/adhoc',
     'hypotheses',
-    'stakeholders',
-    'knowledge/users',
-    'knowledge/product/features',
+    'features',
     'maintenance/log',
-    'critique',
   ];
 
   fs.mkdirSync(path.join(os.homedir(), '.darin'), { recursive: true });
@@ -215,7 +212,6 @@ export async function ensureDefaultWorkspace({ slug = 'default', name = 'My prod
     configPath,
     `${JSON.stringify(
       {
-        autonomy: 'confirm',
         version: '0.3.0',
         active_workspace: slug,
         active_slug: slug,

@@ -97,16 +97,7 @@ const result = {
   },
   durableCandidates: [
     'hypotheses/',
-    'stakeholders/',
-    'knowledge/users/insights.md',
     'STRATEGY.md',
-  ],
-  provenanceTags: [
-    '[ingestion/<shape>/<file>]',
-    '[source/<shape>/<file>]',
-    '(stakeholder-verbal, name, YYYY-MM-DD)',
-    '(metric, source, YYYY-MM-DD)',
-    '(intuition, PM, YYYY-MM-DD)',
   ],
 };
 

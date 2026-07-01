@@ -13,7 +13,6 @@ import {
 } from './lib/paths.mjs';
 
 const STALE_DAYS = 30;
-const STAKEHOLDER_STALE_DAYS = 21;
 const MS_DAY = 86400000;
 
 function exists(p) {
@@ -82,19 +81,6 @@ function adhocBacklog(root) {
   return listMd(d).map(f => path.join(root, 'ingestion', 'adhoc', f));
 }
 
-function staleStakeholders(root, now) {
-  const dir = path.join(root, 'stakeholders');
-  const stale = [];
-  for (const f of listMd(dir)) {
-    const p = path.join(dir, f);
-    const age = (now - mtime(p)) / MS_DAY;
-    if (age >= STAKEHOLDER_STALE_DAYS) {
-      stale.push({ file: f, path: p, daysSinceTouch: Math.floor(age) });
-    }
-  }
-  return stale;
-}
-
 function hasEmptySuccessMetrics(content) {
   const idx = content.search(/## Success metrics/i);
   if (idx === -1) return true;
@@ -107,7 +93,7 @@ function hasEmptySuccessMetrics(content) {
 
 function decisionDebt(root) {
   const hypDir = path.join(root, 'hypotheses');
-  const featDir = path.join(root, 'knowledge', 'product', 'features');
+  const featDir = path.join(root, 'features');
   const missingMetrics = [];
   const specsWithoutHypothesis = [];
 
@@ -181,9 +167,6 @@ const signals = {
   hypotheses: root
     ? { stale: staleHypotheses(root, now), count: listMd(path.join(root, 'hypotheses')).length }
     : { stale: [], count: 0 },
-  stakeholders: root
-    ? { stale: staleStakeholders(root, now), count: listMd(path.join(root, 'stakeholders')).length }
-    : { stale: [], count: 0 },
   maintenance: root
     ? {
         decisionDebt: decisionDebt(root),
@@ -193,15 +176,6 @@ const signals = {
         decisionDebt: { missingMetrics: [], specsWithoutHypothesis: [] },
         openTensions: { items: [], count: 0, strategyAgeDays: null, stale: false },
       },
-  critique: {
-    latest: root
-      ? (() => {
-          const dir = path.join(root, 'critique');
-          const files = listMd(dir).sort().reverse();
-          return files[0] ? path.join(root, 'critique', files[0]) : null;
-        })()
-      : null,
-  },
 };
 
 if (!slug) signals.error = 'NO_ACTIVE_WORKSPACE';

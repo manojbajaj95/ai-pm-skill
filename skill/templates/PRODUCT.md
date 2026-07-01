@@ -14,16 +14,6 @@ early
 
 [What pain exists, why now]
 
-## Vision
+## Notes
 
-[One paragraph: the world if this works]
-
-## Anti-references
-
-[What this product should NOT become, patterns to avoid]
-
-## Principles
-
-1. [Decision heuristic]
-2. [Decision heuristic]
-3. [Decision heuristic]
+[Anything else worth remembering: vision, what this should never become, decision heuristics the team actually uses. Optional — only fill in what's real, don't pad it out.]

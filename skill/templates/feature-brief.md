@@ -14,19 +14,11 @@
 |-----|-----|--------------|
 | | | |
 
-## Hypotheses
+## Hypotheses to test
 
-### Value
-- [ ] [hypothesis] — evidence: [provenance tag]
-
-### Usability
-- [ ] 
-
-### Feasibility
-- [ ] 
-
-### Viability
-- [ ] 
+- [ ] [hypothesis] — evidence: [file it's backed by, or "none yet"]
+- [ ]
+- [ ]
 
 ## Success metrics
 
@@ -42,4 +34,4 @@
 
 ## Suggested next command
 
-`/darin spec [slug]` | `/darin plan [objective]`
+`/darin spec [slug]` (optional) | `/darin prioritize`

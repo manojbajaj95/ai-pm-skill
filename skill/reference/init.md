@@ -6,7 +6,7 @@ Setup a **product workspace** under `~/.darin/workspaces/<slug>/`. Workspaces ar
 
 ```
 ~/.darin/
-├── config.json                    # active_workspace, autonomy
+├── config.json                    # active_workspace
 └── workspaces/
     └── acme/                      # readable slug YOU choose
         ├── manifest.json
@@ -23,9 +23,8 @@ Setup a **product workspace** under `~/.darin/workspaces/<slug>/`. Workspaces ar
         │   ├── market/
         │   └── adhoc/
         ├── hypotheses/
-        ├── stakeholders/
-        ├── decisions/
-        └── ...
+        ├── features/
+        └── maintenance/log/
 ```
 
 Good slugs: `acme`, `mosaic`, `my-startup`. Bad: auto-hashes, repo folder names unless that's your product name.
@@ -59,7 +58,7 @@ Then `workspace.mjs --json` — confirm `workspace_root`.
 
 ## Step 2: Interview
 
-Read and follow [reference/init-interview.md](init-interview.md). Cover stage, users, problem, vision, strategy, and non-goals before writing files.
+Read and follow [reference/init-interview.md](init-interview.md). Cover users, problem, and strategy basics before writing files.
 
 ## Step 3: Write files
 
