@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/manojbajaj95/darin-skill/compare/v0.1.4...v0.1.5) (2026-07-01)
+
+
+### Features
+
+* add insights command ([#9](https://github.com/manojbajaj95/darin-skill/issues/9)) ([8bb3c37](https://github.com/manojbajaj95/darin-skill/commit/8bb3c37fe9c753ca8da948de17fbd6d109ec3c6b))
+* simplify command surface and strip PM jargon ([#7](https://github.com/manojbajaj95/darin-skill/issues/7)) ([783aea7](https://github.com/manojbajaj95/darin-skill/commit/783aea7a00cede5779f07cb38ae71543619f9f82))
+
 ## [0.1.4](https://github.com/manojbajaj95/darin-skill/compare/v0.1.3...v0.1.4) (2026-07-01)
 
 
