@@ -16,7 +16,7 @@ Then in your harness:
 
 ```
 /darin init
-/darin insights docs    # quick aha — compare README to product memory
+/darin insights       # compare a product surface in the repo to product memory
 /darin ingest
 /darin plan
 ```
