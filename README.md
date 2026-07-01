@@ -1,12 +1,23 @@
 # Darin · AI PM skill
 
-**[getdarin.com](https://getdarin.com)** · **[GitHub](https://github.com/manojbajaj95/ai-pm-skill)**
+**[GitHub](https://github.com/manojbajaj95/darin-skill)** · **[npm](https://www.npmjs.com/package/@getdarin/cli)**
 
-Product decisions get made, then their reasoning evaporates. Six months later someone asks "why did we build it this way?" and nobody remembers — so it gets rebuilt, re-argued, or reversed for no reason.
+Every team forgets why it built things. Someone makes a call in a meeting, or a Slack thread, or just decides alone at their desk, and a few months later nobody can explain the reasoning. So the debate happens again, or a feature gets ripped out and rebuilt for no good reason.
 
-Darin is an agent skill for **Cursor, Claude Code, Codex, Gemini CLI**, and other harnesses that keeps the **why** behind your product decisions: the evidence, the tradeoffs, the "we considered X but chose Y because Z." It ingests research, tracks hypotheses with provenance, and writes that reasoning down so it survives past the meeting where it was decided.
+Darin is meant to fix that. It's a skill you run inside Cursor, Claude Code, Codex, Gemini CLI, or pretty much any AI tool that supports Agent Skills, not a separate app you have to remember to open. Feed it interviews, support tickets, or usage numbers, and it keeps track of what's an observation, what's a guess, and what's an actual decision. When you sit down to write a spec or rank the backlog, that history is already there with the reasoning attached.
 
-Product memory lives in **`~/.darin/`** on your machine (markdown, no database). Your code repos stay clean.
+There's nothing to sign up for. Everything gets saved as plain markdown files in `~/.darin/` on your own machine, and one workspace covers your whole product no matter how many repos you work across.
+
+## Install for AI agents
+
+Paste this into Cursor, Codex, or Claude Code:
+
+```
+Retrieve and follow the instructions at:
+https://raw.githubusercontent.com/manojbajaj95/darin-skill/main/INSTALL_FOR_AGENTS.md
+```
+
+Full protocol: [INSTALL_FOR_AGENTS.md](INSTALL_FOR_AGENTS.md)
 
 ## Quick start
 
@@ -15,8 +26,8 @@ Product memory lives in **`~/.darin/`** on your machine (markdown, no database).
 npx @getdarin/cli@latest install
 
 # Or from a clone of this repo
-git clone https://github.com/manojbajaj95/ai-pm-skill.git
-cd ai-pm-skill
+git clone https://github.com/manojbajaj95/darin-skill.git
+cd darin-skill
 node scripts/install.mjs -y
 ```
 
@@ -27,13 +38,11 @@ Then in your harness: **`/darin init`** → **`/darin ingest`** → **`/darin sh
 | Cursor, Claude Code, Gemini | `/darin` |
 | Codex CLI | `$darin` or `/skills` |
 
-**Website:** [getdarin.com](https://getdarin.com) — install instructions, early access for Darin remote (multiplayer, coming later)
-
 ## Features
 
-### Shared product insights across repos
+### Works across every repo, not just this one
 
-One **workspace slug** = one product’s brain. Darin does **not** tie memory to a git repo.
+Darin doesn't care which repo you're in. Give your product one workspace slug, and every repo that touches it (landing page, API, mobile app, monorepo) shares the same memory.
 
 | Where you code | Same Darin workspace |
 |----------------|----------------------|
@@ -41,7 +50,7 @@ One **workspace slug** = one product’s brain. Darin does **not** tie memory to
 | `~/acme/api` | `acme` |
 | `~/acme` (monorepo) | `acme` |
 
-Set `active_workspace` in `~/.darin/config.json` or `export DARIN_SLUG=acme`.
+Set it with `active_workspace` in `~/.darin/config.json`, or `export DARIN_SLUG=acme` if you'd rather use an environment variable.
 
 ### Commands
 
@@ -58,15 +67,15 @@ Set `active_workspace` in `~/.darin/config.json` or `export DARIN_SLUG=acme`.
 | `/darin critique` | Strategy alignment review |
 | `/darin review` | Weekly maintenance sweep |
 
-Bare `/darin` recommends next steps from project signals.
+Not sure where to start? Just type `/darin` on its own and it'll suggest what to run next based on what's going on in your project.
 
-### Agent-native (multi-harness)
+### Works the same everywhere
 
-- Single **`/darin`** router with lazy-loaded playbooks
-- Installs via **`npx @getdarin/cli install`** or `scripts/install.mjs`
-- Pin shortcuts: `/darin pin plan` → `/plan`
+One `/darin` command routes to whichever playbook you need, so you're not memorizing ten different commands across ten different tools. Tired of typing `/darin plan`? Pin it: `/darin pin plan` turns it into a plain `/plan` shortcut.
 
 ## Where data lives
+
+Everything lives under `~/.darin/` on your own machine:
 
 ```
 ~/.darin/
@@ -80,76 +89,16 @@ Bare `/darin` recommends next steps from project signals.
         └── hypotheses/
 ```
 
-Nothing product-related is written into your git repos unless you ask.
-
-## Install
-
-### npm CLI (recommended)
-
-```bash
-npx @getdarin/cli@latest install
-npx @getdarin/cli install --providers=cursor,claude,codex -y
-npx @getdarin/cli install --scope=global --providers=claude -y
-```
-
-Published as [`@getdarin/cli`](https://www.npmjs.com/package/@getdarin/cli) on npm. Source in [`packages/cli`](packages/cli).
-
-### From this repo
-
-```bash
-node scripts/install.mjs --target /path/to/your-repo --providers=cursor,claude,codex -y
-```
-
-| Provider | Path | Invoke |
-|----------|------|--------|
-| Cursor | `.cursor/skills/darin/` | `/darin` |
-| Claude Code | `.claude/skills/darin/` | `/darin` |
-| Codex | `.agents/skills/darin/` | `$darin` |
-| Gemini | `.gemini/skills/darin/` | `/darin` |
-| GitHub Copilot | `.github/skills/darin/` | `/darin` |
-
-**Aliases:** `claude`, `codex`, `copilot`, `rovodev`
-
-### Install for AI agents
-
-Paste into Cursor, Codex, or Claude Code:
-
-```
-Retrieve and follow the instructions at:
-https://raw.githubusercontent.com/manojbajaj95/ai-pm-skill/main/INSTALL_FOR_AGENTS.md
-```
-
-Full protocol: [INSTALL_FOR_AGENTS.md](INSTALL_FOR_AGENTS.md)
-
-## Development
-
-Edit `skill/`, then sync harness builds:
-
-```bash
-node scripts/build.mjs
-node scripts/build.mjs --also-cursor   # local Cursor copy only (not in git)
-node scripts/install.mjs --providers=cursor,claude -y
-cd packages/cli && npm pack
-```
-
-## Release (automated)
-
-Uses **[release-please](https://github.com/googleapis/release-please)** — see [RELEASE.md](RELEASE.md) for full docs.
-
-1. Push **[Conventional Commits](https://www.conventionalcommits.org/)** to `main` (`feat:`, `fix:`, …)
-2. Release Please opens a **Release PR** with `CHANGELOG.md` + version bump
-3. **Merge the PR** → GitHub Release + `npm publish` (`darin@x.y.z`)
-
-**Setup:** trusted publishing (OIDC) — no `NPM_TOKEN` secret. On npmjs.com: package `@getdarin/cli` → Settings → Trusted publishing → GitHub Actions → this repo + `release-please.yml`. Also enable **Allow GitHub Actions to create and approve pull requests** in repo Settings → Actions. (First-ever publish of a new package can't use OIDC — that one has to be `npm publish`'d manually before trusted publishing can be configured.)
-
-Changelog: [`packages/cli/CHANGELOG.md`](packages/cli/CHANGELOG.md)
+None of this touches your git repos unless you specifically ask it to.
 
 ## Links
 
-- **Product:** [getdarin.com](https://getdarin.com)
-- **Repo:** [github.com/manojbajaj95/ai-pm-skill](https://github.com/manojbajaj95/ai-pm-skill)
+- **Repo:** [github.com/manojbajaj95/darin-skill](https://github.com/manojbajaj95/darin-skill)
 - **npm:** [npmjs.com/package/@getdarin/cli](https://www.npmjs.com/package/@getdarin/cli)
+- **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 - **Agent Skills spec:** [agentskills.io](https://agentskills.io/specification)
+- **Changelog:** [packages/cli/CHANGELOG.md](packages/cli/CHANGELOG.md)
+- **Website (in progress):** [getdarin.com](https://getdarin.com), waitlist for Darin remote (shared team context, hosted, coming later)
 
 ## License
 
