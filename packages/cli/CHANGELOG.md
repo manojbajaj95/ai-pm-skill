@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/manojbajaj95/darin-skill/compare/v0.1.3...v0.1.4) (2026-07-01)
+
+
+### Features
+
+* simplify darin skill for small teams ([#5](https://github.com/manojbajaj95/darin-skill/issues/5)) ([5c0da3d](https://github.com/manojbajaj95/darin-skill/commit/5c0da3df79bdb9b8e3184961ab033ae0e23975fd))
+
 ## [0.1.3](https://github.com/manojbajaj95/ai-pm-skill/compare/v0.1.2...v0.1.3) (2026-07-01)
 
 
