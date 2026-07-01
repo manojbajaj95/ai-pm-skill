@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/manojbajaj95/ai-pm-skill/compare/v0.1.0...v0.1.1) (2026-07-01)
+
+
+### Bug Fixes
+
+* trigger release-please changelog ([bac02f9](https://github.com/manojbajaj95/ai-pm-skill/commit/bac02f91267a30a922988837c1d44becdd13074c))
+
 ## [0.1.0](https://github.com/manojbajaj95/ai-pm-skill/compare/v0.0.0...v0.1.0) (2026-06-30)
 
 

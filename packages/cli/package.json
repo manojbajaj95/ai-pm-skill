@@ -1,6 +1,6 @@
 {
   "name": "darin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Darin — AI product manager skill for Cursor, Claude Code, Codex & agent harnesses. Install with npx darin install.",
   "license": "Apache-2.0",
   "type": "module",
