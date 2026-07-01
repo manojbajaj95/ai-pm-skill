@@ -5,7 +5,7 @@
   "packages": {
     "packages/cli": {
       "release-type": "node",
-      "component": "darin",
+      "component": "getdarin-cli",
       "include-component-in-tag": false,
       "changelog-path": "CHANGELOG.md",
       "bump-patch-for-minor-pre-major": true
@@ -21,7 +21,7 @@
     { "type": "test", "section": "Tests", "hidden": true },
     { "type": "ci", "section": "Continuous Integration", "hidden": true }
   ],
-  "pull-request-title-pattern": "chore: release darin ${version}",
+  "pull-request-title-pattern": "chore: release @getdarin/cli ${version}",
   "changelog-host": "https://github.com",
   "include-v-in-tag": true
 }
