@@ -4,7 +4,7 @@
 
 Coding agents made writing code cheap; **deciding what to build** is the new bottleneck. Darin is a **product improvement loop** inside Cursor, Claude Code, Codex, Gemini CLI, or any Agent Skills harness — not another app to open.
 
-Set goals once, **check whether what you shipped still matches what you decided**, pick the biggest needle move, hand off to your coding agent, repeat. RSI-adjacent and human-gated: Darin prepares decisions; you stay the engineer. Everything stays plain markdown in `~/.darin/` on your machine.
+Set goals once, **write suggestions from the codebase**, rank them on a roadmap, hand off the top item to your coding agent, repeat. Everything stays plain markdown in `~/.darin/` on your machine.
 
 ## Install for AI agents
 
@@ -48,12 +48,13 @@ init → insights → next → [coding agent] → insights …
 
 | Phase | Command | What happens |
 | ----- | ------- | ------------ |
-| Setup | `/darin init` | North star, goals, harness automation nudge |
-| Observe | `/darin insights` | Alignment check — repo vs memory, one file per gap |
-| Decide + hand off | `/darin next` | Pick biggest needle move → scoped brief → coding agent prompt |
+| Setup | `/darin init` | Goals, harness automation nudge |
+| Observe | `/darin insights` | Compare repo to memory — one file per suggestion |
+| Rank | `/darin roadmap` | *Optional* — rank suggestions + brief for #1 |
+| Hand off | `/darin next` | Top roadmap item → coding agent prompt |
 | Ship | *(your coding agent)* | Implements the brief — not Darin |
-| Stimuli | `/darin ingest` | *Outside loop* — customer research, metrics, notes for sharper insights |
-| Maintain | `/darin review` | *Optional* — stale bets, drift from goals |
+| Capture | `/darin ingest` | *Outside loop* — research, metrics, notes |
+| Maintain | `/darin review` | *Optional* — stale briefs, drift from goals |
 
 Not sure where to start? Type **`/darin`** alone — it reads project signals and suggests the next step.
 
@@ -75,11 +76,12 @@ Most PM tools fix this with methodology theater — backlogs, frameworks, jargon
 
 | Command | Purpose |
 | ------- | ------- |
-| `/darin init` | Set up workspace — north star, goals, automation nudge |
-| `/darin insights` | Alignment check — codebase vs memory, one file per finding |
-| `/darin next` | Pick needle move, write brief, hand off to coding agent |
-| `/darin ingest` | File external stimuli (not part of the loop) |
-| `/darin review` | Optional weekly maintenance |
+| `/darin init` | Set up workspace — goals, automation nudge |
+| `/darin insights` | Compare codebase to memory — one suggestion per finding |
+| `/darin roadmap` | Rank suggestions and write brief for the top item |
+| `/darin next` | Hand off top roadmap item to coding agent |
+| `/darin ingest` | File research and notes (not part of the loop) |
+| `/darin review` | Optional maintenance |
 
 ## Features
 
@@ -108,8 +110,8 @@ Set `active_workspace` in `~/.darin/config.json`, or `export DARIN_SLUG=acme`.
         ├── ingestion/
         ├── hypotheses/
         ├── insights/
-        └── queue/
-            └── next.md
+        └── roadmap/
+            └── roadmap.md
 ```
 
 None of this touches your git repos unless you ask.

@@ -6,7 +6,7 @@ Read this entire file, then follow the steps in order. Ask the user questions wh
 
 ## What you are installing
 
-**Darin** is a **product improvement loop** for teams using coding agents. It checks whether what you shipped still matches what you decided — then picks the biggest needle move and hands off to your coding agent. Loop engineering applied to product decisions — RSI-adjacent, human-gated.
+**Darin** is a **product improvement loop** for teams using coding agents. Write suggestions from the codebase, rank them on a roadmap, hand off the top item to your coding agent.
 
 The core loop: **`init` → `insights` → `next` → [coding agent] → `insights`**. Set harness automation after init so it runs on repeat. **`/darin ingest`** is external stimuli (customer research, metrics) — not part of the loop, but sharper insights when you file what you learn.
 
@@ -237,8 +237,8 @@ Bare `/darin` should recommend 2–3 next commands based on project signals (e.g
 
 ```
 /darin init                    # goals + automation nudge
-/darin insights                # observe gaps in codebase
-/darin next                    # pick needle move + hand off to coding agent
+/darin insights                # write suggestions from codebase
+/darin next                    # hand off top roadmap item to coding agent
 # [coding agent ships the brief]
 /darin insights                # close the loop
 ```
@@ -263,7 +263,7 @@ Same workspace works from every repo for this product:
   export DARIN_SLUG=<slug>   # optional, in shell profile
   or set active_workspace in ~/.darin/config.json
 
-Commands: /darin init | insights | next | ingest | review
+Commands: /darin init | insights | roadmap | next | ingest | review
 
 Product loop: init → insights → next → [coding agent] → insights
 

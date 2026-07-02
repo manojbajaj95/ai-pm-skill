@@ -1,6 +1,6 @@
 # @getdarin/cli
 
-Installer for **Darin** — a product improvement loop for Cursor, Claude Code, Codex, Gemini CLI, and other Agent Skills harnesses. Observe gaps (`insights`), pick the needle move (`next`), hand off to your coding agent.
+Installer for **Darin** — a product improvement loop for Cursor, Claude Code, Codex, Gemini CLI, and other Agent Skills harnesses. Write suggestions (`insights`), rank them (`roadmap`), hand off the top item (`next`) to your coding agent.
 
 **[GitHub](https://github.com/manojbajaj95/darin-skill)** · **[npm](https://www.npmjs.com/package/@getdarin/cli)**
 
@@ -61,7 +61,8 @@ Product memory lives in `~/.darin/` (markdown, no database) — never in your co
         ├── PRODUCT.md
         ├── STRATEGY.md
         ├── insights/
-        └── queue/
+        └── roadmap/
+            └── roadmap.md
             └── next.md
 ```
 

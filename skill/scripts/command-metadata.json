@@ -3,32 +3,38 @@
     "init",
     "ingest",
     "insights",
+    "roadmap",
     "next",
     "review"
   ],
   "init": {
     "category": "Setup",
-    "description": "Short interview, write PRODUCT.md + STRATEGY.md (north star + goals), nudge harness automation",
+    "description": "Short interview, write PRODUCT.md + STRATEGY.md (goals), nudge harness automation",
     "argumentHint": ""
   },
   "ingest": {
     "category": "Capture",
-    "description": "External stimuli — file customer research, metrics, or notes into memory (not part of the loop)",
+    "description": "File customer research, metrics, or notes into memory (not part of the loop)",
     "argumentHint": "[file path, paste, or description]"
   },
   "insights": {
     "category": "Analyze",
-    "description": "Observe — compare product in your codebase to Darin memory; one insight file per finding",
+    "description": "Compare product to memory; one file per suggestion",
     "argumentHint": "[optional focus]"
+  },
+  "roadmap": {
+    "category": "Plan",
+    "description": "Rank latest suggestions and write brief for the top item",
+    "argumentHint": "[optional item slug]"
   },
   "next": {
     "category": "Plan",
-    "description": "Pick the biggest needle move from latest insights, write a scoped brief, hand off to your coding agent",
-    "argumentHint": "[optional insight slug to override pick]"
+    "description": "Top roadmap item — hand off to your coding agent (auto-runs roadmap if stale)",
+    "argumentHint": "[optional item override]"
   },
   "review": {
     "category": "Maintain",
-    "description": "Optional weekly sweep for stale evidence and drift from your goals",
+    "description": "Optional sweep for stale evidence and drift from your goals",
     "argumentHint": ""
   }
 }

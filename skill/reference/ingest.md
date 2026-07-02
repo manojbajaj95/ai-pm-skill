@@ -47,11 +47,11 @@ Resolve `workspace_root` via `workspace.mjs --json`, then load from there:
 
 1. **`source/<directory>/YYYY-MM-DD-<slug>.md`** — exact copy of the original (or faithful transcript). Never edit after write.
 2. **`ingestion/<directory>/YYYY-MM-DD-<slug>.md`** — plain-language write-up: what was said, what it might mean, and anything it suggests you should test. Say clearly which parts are your read vs. what was actually said.
-3. **Updates to long-term memory (propose, and always ask the user first — in plain language):**
-   - `hypotheses/<slug>.md` — this is where Darin tracks what you're betting on; add the new evidence here
+3. **Durable updates (propose, and always ask the user first — in plain language):**
+   - `hypotheses/<slug>.md` — add new evidence to an existing brief
    - `STRATEGY.md § Open tensions` — if what you learned clashes with your stated goals
 
-   When you ask, don't use jargon. Say something like: *"This looks important enough to remember long-term — want me to save it as something we're tracking?"* — not "promote to a hypothesis."
+   When you ask, don't use jargon. Say something like: *"Want me to save this as something we're tracking?"*
 
 When you cite this evidence later, just point at the file (e.g. "per `ingestion/interviews/2026-01-01-acme.md`").
 
@@ -60,7 +60,7 @@ When you cite this evidence later, just point at the file (e.g. "per `ingestion/
 Short summary in plain language:
 
 - Where it landed
-- 1–3 things worth remembering (and ask before saving any of them to long-term memory)
+- 1–3 things worth remembering (ask before saving anything durable)
 - Anything that contradicts what you learned before (keep both, don't paper over it)
 - One open question if a judgment call is needed
 - Suggested next step: `insights` (or `ingest` more if building evidence first)

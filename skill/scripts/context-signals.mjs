@@ -142,15 +142,42 @@ function listInsightSessions(root) {
   return sessions;
 }
 
-function readQueue(root) {
-  const queuePath = path.join(root, 'queue', 'next.md');
-  if (!exists(queuePath)) return { exists: false, status: null };
-  const content = safeRead(queuePath);
-  const statusMatch = content.match(/^Status:\s*(.+)$/m);
+function readRoadmapLoop(root) {
+  const roadmapPath = path.join(root, 'roadmap', 'roadmap.md');
+  if (!exists(roadmapPath)) {
+    return { exists: false, active_status: null, up_next_count: 0, needs_roadmap: true };
+  }
+  const content = safeRead(roadmapPath);
+  const nowMatch = content.match(/## Now\s*\n([\s\S]*?)(?=\n## |\s*$)/i);
+  const nowSection = nowMatch?.[1] || '';
+  const statusMatch = nowSection.match(/^Status:\s*(.+)$/m);
+  const upNextMatch = content.match(/## Up next\s*\n([\s\S]*?)(?=\n## |\s*$)/i);
+  const upNextSection = upNextMatch?.[1] || '';
+  const upNextRows = upNextSection
+    .split('\n')
+    .filter(l => l.trim().startsWith('|') && !/^\|[\s\-:|]+\|$/.test(l.trim()))
+    .slice(1);
+  const updatedRaw = content.match(/^Updated:\s*(.+)$/m)?.[1]?.trim();
+  const updatedMs = updatedRaw ? Date.parse(updatedRaw) : null;
+  const insightsDir = path.join(root, 'insights');
+  let latestInsightsMtime = 0;
+  if (exists(insightsDir)) {
+    for (const name of fs.readdirSync(insightsDir)) {
+      const d = path.join(insightsDir, name);
+      if (!fs.statSync(d).isDirectory()) continue;
+      for (const f of listMd(d)) {
+        latestInsightsMtime = Math.max(latestInsightsMtime, mtime(path.join(d, f)));
+      }
+    }
+  }
+  const needs_roadmap =
+    !updatedMs || Number.isNaN(updatedMs) || latestInsightsMtime > updatedMs;
   return {
     exists: true,
-    status: statusMatch?.[1]?.trim() || 'unknown',
-    path: 'queue/next.md',
+    path: 'roadmap/roadmap.md',
+    active_status: statusMatch?.[1]?.trim() || null,
+    up_next_count: upNextRows.length,
+    needs_roadmap,
   };
 }
 
@@ -203,9 +230,13 @@ const signals = {
     ? {
         insights_sessions: listInsightSessions(root),
         latest_insights: listInsightSessions(root)[0] || null,
-        queue: readQueue(root),
+        roadmap: readRoadmapLoop(root),
       }
-    : { insights_sessions: [], latest_insights: null, queue: { exists: false, status: null } },
+    : {
+        insights_sessions: [],
+        latest_insights: null,
+        roadmap: { exists: false, active_status: null, up_next_count: 0, needs_roadmap: true },
+      },
   maintenance: root
     ? {
         decisionDebt: decisionDebt(root),

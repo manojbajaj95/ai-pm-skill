@@ -1,8 +1,8 @@
 # Insights flow
 
-Compare product **in the codebase** to Darin memory. Produce **separate insight files** — Opportunities, Bloat, Improvements — not one monolithic report. Codebase only — never fetch live URLs or use the browser.
+Compare product **in the codebase** to Darin memory. Produce **one file per suggestion** — not one monolithic report. Codebase only — never fetch live URLs or use the browser.
 
-Not for internal memory hygiene — use `review` for that.
+Suggestions only. Does not rank, plan, or write the roadmap. Not for memory hygiene — use `review` for that.
 
 ## Step 1: Session setup
 
@@ -27,9 +27,7 @@ Thin memory → say so; suggest `ingest`.
 
 ## Step 3: Auto-pick nudges
 
-From `nudges` in script output, auto-pick what aligns with memory, evidence, strategy, and optional `target`. Read each picked file under `reference/insights/<id>.md`.
-
-Available nudges (PM-oriented):
+From `nudges` in script output, auto-pick what aligns with memory, evidence, and optional `target`. Read each picked file under `reference/insights/<id>.md`.
 
 | id | helps_with |
 |----|------------|
@@ -38,25 +36,26 @@ Available nudges (PM-oriented):
 | activation | Onboarding & activation — signup, first run, path to aha |
 | trial | Trial & evaluation — try-before-commit, guest access, gating |
 | documentation | Documentation & enablement — docs vs promise, getting started |
-| scope | Product scope & focus — sprawl, jargon vs strategy |
+| scope | Product scope & focus — sprawl, jargon vs goals |
 
 User does not need to name a nudge.
 
-## Step 4: Explore and produce insights
+## Step 4: Explore and produce suggestions
 
 Follow `product.md`:
 
 1. Explore codebase (agent chooses files)
 2. Identify candidates via gap moves
-3. **For each candidate:** classify, write full insight, save to `<session_dir>/<type>-<slug>.md` using `templates/insight.md`
+3. **For each candidate:** classify, write full suggestion, save to `<session_dir>/<type>-<slug>.md` using `templates/insight.md`
 4. Save session index to `<index_path>` using `templates/insights-run.md`
-5. Chat summary — top 2–3 insights with paths; **Suggested next step** → `/darin next`
+5. Chat summary — top 2–3 suggestions with paths; **Suggested next step** → `/darin next`
 
 ## Guardrails
 
 - Memory-grounded only — no industry checklists
 - One finding = one file
 - Not a design review — product story and motion, not pixels
-- Not `review` — no stale-hypothesis maintenance
+- Not `review` — no stale brief maintenance
+- Do not write or update `roadmap/roadmap.md`
 
 Propose updates to `hypotheses/` or `STRATEGY.md` only after asking the user.
