@@ -6,6 +6,14 @@ Coding agents made writing code cheap; **deciding what to build** is the new bot
 
 Set goals once, **write suggestions from the codebase**, rank them on a roadmap, hand off the top item to your coding agent, repeat. Everything stays plain markdown in `~/.darin/` on your machine.
 
+## Built by Darin
+
+**Darin was built by Darin.** This repo is the proof — not a pitch deck, not backlog theater, but a product that dogfoods its own loop.
+
+Every meaningful change here went through the same workflow you get: **`insights`** surfaces gaps from the codebase, **`roadmap`** ranks what matters against your goals, **`next`** hands the top bet to a coding agent, and the agent ships. Commands, reference docs, templates, and the CLI installer in this repo were shaped that way — observe, decide, act, repeat.
+
+That is the whole point. You are not installing methodology in a box. You are installing a loop that already runs on itself — and it works because the team building it uses it to decide what to build next.
+
 ## Install for AI agents
 
 Paste this into Cursor, Codex, or Claude Code:
