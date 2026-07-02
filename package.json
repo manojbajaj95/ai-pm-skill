@@ -1,8 +1,8 @@
 {
   "name": "darin-skill",
   "private": true,
-  "description": "Darin — AI product manager skill for Cursor, Claude Code, Codex & agent harnesses",
-  "homepage": "https://getdarin.com",
+  "description": "Darin — product improvement loop for Cursor, Claude Code, Codex & agent harnesses",
+  "homepage": "https://github.com/manojbajaj95/darin-skill",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/manojbajaj95/darin-skill.git"

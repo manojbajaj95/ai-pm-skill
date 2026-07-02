@@ -25,6 +25,8 @@ Setup a **product workspace** under `~/.darin/workspaces/<slug>/`. Workspaces ar
         ├── hypotheses/
         ├── features/
         ├── insights/
+        ├── queue/
+        │   └── next.md
         └── maintenance/log/
 ```
 
@@ -69,11 +71,15 @@ Use `templates/PRODUCT.md` and `templates/STRATEGY.md` as scaffolds.
 
 ## Step 4: Close
 
+Read and follow [reference/init-automation.md](init-automation.md) — detect or ask harness, nudge automation setup, store `harness` in `manifest.json` when confirmed.
+
 Tell the user:
 
 ```
 Active workspace: acme
 Storage: ~/.darin/workspaces/acme/
+
+Product loop: insights → next → [your coding agent] → insights
 ```
 
 Same slug works from any repo: set `active_workspace` once in `~/.darin/config.json`, or `export DARIN_SLUG=acme`, or pass `--slug acme` to scripts.

@@ -11,6 +11,8 @@ Run this conversation during `init` Step 2. Ask in order; skip what the user alr
 ## 2. Users and problem
 
 - **Who is the primary user?** — role, context, job to be done
+- **How do they evaluate?** — self-serve try, dev install, demo, security review, etc.
+- **What does first value look like?** — path to aha, roughly
 - **What pain exists today?** — specific, not generic "inefficiency"
 - **Why now?** — what changed (market, regulation, behavior, tech)
 

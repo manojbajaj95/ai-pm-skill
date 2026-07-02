@@ -18,16 +18,18 @@ const SCRIPTS = path.join(REPO_ROOT, 'skill', 'scripts');
 test('command metadata has stable order and table rows', () => {
   const meta = loadCommandMetadata(REPO_ROOT);
   const ids = commandIds(meta);
-  assert.equal(ids.length, 6);
+  assert.equal(ids.length, 5);
   assert.ok(ids.includes('insights'));
-  assert.ok(ids.includes('prioritize'));
-  assert.equal(ids.indexOf('insights'), ids.indexOf('plan') + 1);
+  assert.ok(ids.includes('next'));
+  assert.ok(!ids.includes('plan'));
+  assert.ok(!ids.includes('prioritize'));
+  assert.equal(ids.indexOf('next'), ids.indexOf('insights') + 1);
   const table = renderCommandsTable(meta);
-  assert.match(table, /`plan`/);
+  assert.match(table, /`next`/);
   assert.match(table, /`insights`/);
-  assert.match(table, /reference\/plan\.md/);
+  assert.match(table, /reference\/next\.md/);
   assert.match(table, /reference\/insights\.md/);
-  assert.equal(commandHint(meta).split(' · ').length, 6);
+  assert.equal(commandHint(meta).split(' · ').length, 5);
 });
 
 test('ingest-route fails without active workspace', () => {
@@ -65,7 +67,7 @@ test('ingest-route maps interview shape to interviews directory', () => {
   assert.match(payload.paths.ingestion, /^ingestion\/interviews\//);
 });
 
-test('context-signals reports maintenance fields', () => {
+test('context-signals reports maintenance and loop fields', () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
   const root = path.join(home, 'workspaces', 'acme');
   fs.mkdirSync(path.join(root, 'hypotheses'), { recursive: true });
@@ -87,9 +89,12 @@ test('context-signals reports maintenance fields', () => {
   const signals = JSON.parse(result.stdout);
   assert.equal(signals.maintenance.decisionDebt.missingMetrics.length, 1);
   assert.equal(signals.maintenance.openTensions.count, 1);
+  assert.ok(signals.loop);
+  assert.equal(signals.loop.insights_sessions.length, 0);
+  assert.equal(signals.loop.queue.exists, false);
 });
 
-test('workspace scaffold creates features directory', async () => {
+test('workspace scaffold creates queue directory', async () => {
   const { ensureWorkspaceScaffold } = await import(
     path.join(REPO_ROOT, 'skill', 'scripts', 'lib', 'paths.mjs')
   );
@@ -100,6 +105,7 @@ test('workspace scaffold creates features directory', async () => {
     const root = ensureWorkspaceScaffold('acme-test');
     assert.ok(fs.existsSync(path.join(root, 'features')));
     assert.ok(fs.existsSync(path.join(root, 'insights')));
+    assert.ok(fs.existsSync(path.join(root, 'queue')));
   } finally {
     if (prev === undefined) delete process.env.DARIN_HOME;
     else process.env.DARIN_HOME = prev;
@@ -110,7 +116,7 @@ test('insights-route fails without active workspace', () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
   const result = spawnSync(
     process.execPath,
-    [path.join(SCRIPTS, 'insights-route.mjs'), '--json', '--target', 'landing page'],
+    [path.join(SCRIPTS, 'insights-route.mjs'), '--json'],
     { env: { ...process.env, DARIN_HOME: home }, encoding: 'utf8' },
   );
   assert.notEqual(result.status, 0);
@@ -118,7 +124,7 @@ test('insights-route fails without active workspace', () => {
   assert.equal(payload.error, 'NO_ACTIVE_WORKSPACE');
 });
 
-test('insights-route maps landing page to landing recipe', () => {
+test('insights-route returns session paths and nudge catalog', () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
   const root = path.join(home, 'workspaces', 'acme');
   fs.mkdirSync(root, { recursive: true });
@@ -130,17 +136,13 @@ test('insights-route maps landing page to landing recipe', () => {
   fs.writeFileSync(path.join(root, 'PRODUCT.md'), '# Product\n');
 
   const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-repo-'));
-  const marketingDir = path.join(repo, 'app', '(marketing)');
-  fs.mkdirSync(marketingDir, { recursive: true });
-  fs.writeFileSync(path.join(marketingDir, 'page.tsx'), 'export default function Page() {}\n');
-
   const result = spawnSync(
     process.execPath,
     [
       path.join(SCRIPTS, 'insights-route.mjs'),
       '--json',
       '--target',
-      'landing page',
+      'pricing',
       '--cwd',
       repo,
     ],
@@ -148,10 +150,77 @@ test('insights-route maps landing page to landing recipe', () => {
   );
   assert.equal(result.status, 0, result.stderr);
   const payload = JSON.parse(result.stdout);
-  assert.equal(payload.recipe, 'landing');
+  assert.match(payload.session_dir, /^insights\/\d{4}-\d{2}-\d{2}$/);
+  assert.match(payload.index_path, /^insights\/\d{4}-\d{2}-\d{2}\/run\.md$/);
+  assert.equal(payload.target, 'pricing');
+  assert.equal(payload.cwd, repo);
+  assert.ok(Array.isArray(payload.nudges));
+  assert.ok(payload.nudges.some(n => n.id === 'positioning'));
+  assert.ok(payload.nudges.some(n => n.id === 'trial'));
   assert.equal(payload.source_type, 'codebase');
-  assert.ok(payload.discovered_files.includes('app/(marketing)/page.tsx'));
-  assert.match(payload.report_path, /^insights\/\d{4}-\d{2}-\d{2}-landing\.md$/);
+  assert.ok(!Object.hasOwn(payload, 'discovered_files'));
+  assert.ok(!Object.hasOwn(payload, 'recipe'));
+});
+
+test('next-route fails without active workspace', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
+  const result = spawnSync(
+    process.execPath,
+    [path.join(SCRIPTS, 'next-route.mjs'), '--json'],
+    { env: { ...process.env, DARIN_HOME: home }, encoding: 'utf8' },
+  );
+  assert.notEqual(result.status, 0);
+  const payload = JSON.parse(result.stdout || result.stderr);
+  assert.equal(payload.error, 'NO_ACTIVE_WORKSPACE');
+});
+
+test('next-route fails without insights session', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
+  const root = path.join(home, 'workspaces', 'acme');
+  fs.mkdirSync(root, { recursive: true });
+  fs.mkdirSync(home, { recursive: true });
+  fs.writeFileSync(
+    path.join(home, 'config.json'),
+    JSON.stringify({ active_workspace: 'acme' }, null, 2),
+  );
+  fs.writeFileSync(path.join(root, 'PRODUCT.md'), '# Product\n');
+
+  const result = spawnSync(
+    process.execPath,
+    [path.join(SCRIPTS, 'next-route.mjs'), '--json'],
+    { env: { ...process.env, DARIN_HOME: home }, encoding: 'utf8' },
+  );
+  assert.notEqual(result.status, 0);
+  const payload = JSON.parse(result.stdout);
+  assert.equal(payload.error, 'NO_INSIGHTS');
+  assert.equal(payload.queue_path, 'queue/next.md');
+});
+
+test('next-route returns latest insights session', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
+  const root = path.join(home, 'workspaces', 'acme');
+  const session = path.join(root, 'insights', '2026-07-02');
+  fs.mkdirSync(session, { recursive: true });
+  fs.mkdirSync(home, { recursive: true });
+  fs.writeFileSync(
+    path.join(home, 'config.json'),
+    JSON.stringify({ active_workspace: 'acme' }, null, 2),
+  );
+  fs.writeFileSync(path.join(root, 'PRODUCT.md'), '# Product\n');
+  fs.writeFileSync(path.join(session, 'run.md'), '# Run\n');
+  fs.writeFileSync(path.join(session, 'opportunity-trial.md'), '# Trial\n');
+
+  const result = spawnSync(
+    process.execPath,
+    [path.join(SCRIPTS, 'next-route.mjs'), '--json'],
+    { env: { ...process.env, DARIN_HOME: home }, encoding: 'utf8' },
+  );
+  assert.equal(result.status, 0, result.stderr);
+  const payload = JSON.parse(result.stdout);
+  assert.equal(payload.latest_insights_dir, 'insights/2026-07-02');
+  assert.equal(payload.insight_files.length, 1);
+  assert.match(payload.insight_files[0], /opportunity-trial\.md$/);
+  assert.equal(payload.queue_path, 'queue/next.md');
 });
 
 test('build expands commands table placeholder', async () => {
@@ -160,9 +229,10 @@ test('build expands commands table placeholder', async () => {
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-build-'));
   const skillDir = buildProviderSkill({ repoRoot: REPO_ROOT, provider: PROVIDERS.cursor, destRoot: out });
   const skill = fs.readFileSync(path.join(skillDir, 'SKILL.md'), 'utf8');
-  assert.match(skill, /`plan`/);
+  assert.match(skill, /`next`/);
   assert.match(skill, /`insights`/);
   assert.doesNotMatch(skill, /\{\{commands_table\}\}/);
+  assert.doesNotMatch(skill, /`plan`/);
   assert.match(skill, /user-invocable: true/);
   assert.match(skill, /argument-hint:/);
 });

@@ -122,6 +122,38 @@ function decisionDebt(root) {
   return { missingMetrics, specsWithoutHypothesis };
 }
 
+function listInsightSessions(root) {
+  const base = path.join(root, 'insights');
+  if (!exists(base)) return [];
+  const sessions = [];
+  for (const name of fs.readdirSync(base)) {
+    const d = path.join(base, name);
+    if (!fs.statSync(d).isDirectory()) continue;
+    const runPath = path.join(d, 'run.md');
+    const files = listMd(d).filter(f => f !== 'run.md');
+    sessions.push({
+      dir: `insights/${name}`,
+      has_run: exists(runPath),
+      insight_count: files.length,
+      mtime: Math.max(mtime(runPath), ...files.map(f => mtime(path.join(d, f)))),
+    });
+  }
+  sessions.sort((a, b) => b.mtime - a.mtime);
+  return sessions;
+}
+
+function readQueue(root) {
+  const queuePath = path.join(root, 'queue', 'next.md');
+  if (!exists(queuePath)) return { exists: false, status: null };
+  const content = safeRead(queuePath);
+  const statusMatch = content.match(/^Status:\s*(.+)$/m);
+  return {
+    exists: true,
+    status: statusMatch?.[1]?.trim() || 'unknown',
+    path: 'queue/next.md',
+  };
+}
+
 function openTensions(root, now) {
   const strategyPath = path.join(root, 'STRATEGY.md');
   if (!exists(strategyPath)) {
@@ -167,6 +199,13 @@ const signals = {
   hypotheses: root
     ? { stale: staleHypotheses(root, now), count: listMd(path.join(root, 'hypotheses')).length }
     : { stale: [], count: 0 },
+  loop: root
+    ? {
+        insights_sessions: listInsightSessions(root),
+        latest_insights: listInsightSessions(root)[0] || null,
+        queue: readQueue(root),
+      }
+    : { insights_sessions: [], latest_insights: null, queue: { exists: false, status: null } },
   maintenance: root
     ? {
         decisionDebt: decisionDebt(root),

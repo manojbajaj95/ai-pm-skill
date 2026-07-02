@@ -1,4 +1,6 @@
-# Prioritize flow
+# Prioritize flow (internal — use `next` command)
+
+> **Not user-facing.** The `next` command absorbs scoring. Kept for ICE/RICE guidance.
 
 Quick path to a prioritization framework, then apply it.
 

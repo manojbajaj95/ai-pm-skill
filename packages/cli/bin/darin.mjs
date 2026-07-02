@@ -14,7 +14,7 @@ async function loadInstallCore() {
 }
 
 function globalHelp() {
-  console.log(`darin — install the Darin PM skill into your AI harness
+  console.log(`darin — install the Darin product improvement loop into your AI harness
 
 Usage:
   darin install [options]
@@ -34,7 +34,7 @@ Examples:
   npx @getdarin/cli install --providers=cursor,claude,codex -y
   darin install --scope=global --providers=claude -y
 
-Docs: https://getdarin.com
+Install guide: https://github.com/manojbajaj95/darin-skill/blob/main/INSTALL_FOR_AGENTS.md
 Repo: https://github.com/manojbajaj95/darin-skill
 `);
 }

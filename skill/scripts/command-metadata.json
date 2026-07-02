@@ -2,39 +2,33 @@
   "order": [
     "init",
     "ingest",
-    "plan",
     "insights",
-    "prioritize",
+    "next",
     "review"
   ],
   "init": {
     "category": "Setup",
-    "description": "Short interview, write PRODUCT.md + STRATEGY.md (north star + goals) under `~/.darin/workspaces/<id>/`",
+    "description": "Short interview, write PRODUCT.md + STRATEGY.md (north star + goals), nudge harness automation",
     "argumentHint": ""
   },
   "ingest": {
     "category": "Capture",
-    "description": "File something you learned into memory and note what it might mean; also helps plan customer calls",
+    "description": "External stimuli — file customer research, metrics, or notes into memory (not part of the loop)",
     "argumentHint": "[file path, paste, or description]"
-  },
-  "plan": {
-    "category": "Plan",
-    "description": "Turn a problem or goal into a scoped brief: build now / next / skip",
-    "argumentHint": "[feature, problem area, or goal]"
   },
   "insights": {
     "category": "Analyze",
-    "description": "Compare product surface in your codebase to Darin memory — misalignments, gaps, improvements",
-    "argumentHint": "[recipe or natural phrase] — landing · pricing · onboarding · docs · seo"
+    "description": "Observe — compare product in your codebase to Darin memory; one insight file per finding",
+    "argumentHint": "[optional focus]"
   },
-  "prioritize": {
+  "next": {
     "category": "Plan",
-    "description": "Pick the right way to order competing work and apply it",
-    "argumentHint": "[list or decision context]"
+    "description": "Pick the biggest needle move from latest insights, write a scoped brief, hand off to your coding agent",
+    "argumentHint": "[optional insight slug to override pick]"
   },
   "review": {
     "category": "Maintain",
-    "description": "Weekly sweep for stale evidence and drift from your goals",
+    "description": "Optional weekly sweep for stale evidence and drift from your goals",
     "argumentHint": ""
   }
 }

@@ -6,13 +6,13 @@ Read this entire file, then follow the steps in order. Ask the user questions wh
 
 ## What you are installing
 
-**Darin** is **decision memory** for small teams using coding agents. Coding agents made writing code cheap; **planning** is the new bottleneck. Darin is a skill inside Cursor, Claude Code, Codex, Gemini CLI, or any Agent Skills harness — not a separate app to open.
+**Darin** is a **product improvement loop** for teams using coding agents. It checks whether what you shipped still matches what you decided — then picks the biggest needle move and hands off to your coding agent. Loop engineering applied to product decisions — RSI-adjacent, human-gated.
 
-The core loop: **capture what you learn, check what you ship, then plan what to build.** Feed it interviews, support tickets, or usage numbers — Darin separates observations, guesses, and committed decisions. **`/darin insights`** spot-checks landing, docs, pricing, or onboarding **in the repo** (codebase files only — no live URLs) against product memory. **`/darin plan`** pulls from what the user has captured — not a blank page.
+The core loop: **`init` → `insights` → `next` → [coding agent] → `insights`**. Set harness automation after init so it runs on repeat. **`/darin ingest`** is external stimuli (customer research, metrics) — not part of the loop, but sharper insights when you file what you learn.
 
 It is **not** tied to a git repo — one workspace slug (e.g. `acme`) is shared across landing, API, mobile, and monorepo checkouts. Everything stays plain markdown in `~/.darin/`. Nothing to sign up for.
 
-**Repo:** [github.com/manojbajaj95/darin-skill](https://github.com/manojbajaj95/darin-skill) · **Website:** [getdarin.com](https://getdarin.com)
+**Repo:** [github.com/manojbajaj95/darin-skill](https://github.com/manojbajaj95/darin-skill) · **npm:** [npmjs.com/package/@getdarin/cli](https://www.npmjs.com/package/@getdarin/cli)
 
 If you fetched this file by URL without cloning yet, companion files live in the **darin-skill** repo:
 
@@ -227,18 +227,26 @@ Invoke Darin once to confirm the skill loads:
 /darin
 ```
 
-Bare `/darin` should recommend 2–3 next commands based on project signals (e.g. ingest research, run insights, plan a feature).
+Bare `/darin` should recommend 2–3 next commands based on project signals (e.g. run insights, run next, ingest research).
 
-**Install is complete when:** skill installed, init interview done (Steps 3–4), and `/darin` smoke test passes.
+**Install is complete when:** skill installed, init interview done (Steps 3–4), automation nudged, and `/darin` smoke test passes.
 
-**User is set up when:** they've also run at least one **`/darin ingest`** and one **`/darin insights`**. Guide them through both before closing if time allows. For insights, invoke **`/darin insights`** and let Darin discover what to check — landing page, docs, pricing, onboarding, or whatever exists in the repo. No customer research required for a first run.
+**User is set up when:** they've run **`/darin insights`** once and **`/darin next`** once. Optional: **`/darin ingest`** when they have customer notes to file.
 
-**Activation loop** (run in order when guiding the user):
+**Product loop** (run in order when guiding the user):
 
 ```
-/darin ingest [paste a short customer note or path to a file]
-/darin insights
-/darin plan [a problem the user cares about]
+/darin init                    # goals + automation nudge
+/darin insights                # observe gaps in codebase
+/darin next                    # pick needle move + hand off to coding agent
+# [coding agent ships the brief]
+/darin insights                # close the loop
+```
+
+**External stimuli** (any time, not part of the loop):
+
+```
+/darin ingest [customer note or file path]
 ```
 
 ## Step 7: Close — tell the user
@@ -255,11 +263,11 @@ Same workspace works from every repo for this product:
   export DARIN_SLUG=<slug>   # optional, in shell profile
   or set active_workspace in ~/.darin/config.json
 
-Commands: /darin init | ingest | insights | plan | prioritize | review
+Commands: /darin init | insights | next | ingest | review
 
-You're set up when you've run init, filed at least one ingest, and tried insights once.
+Product loop: init → insights → next → [coding agent] → insights
 
-Core loop (in order): init → ingest → insights → plan
+You're set up when you've run init, insights once, and next once.
 ```
 
 ## Multi-repo setup (if user has multiple code repos)
@@ -297,6 +305,6 @@ After install, before any Darin command:
 1. Run `node .cursor/skills/darin/scripts/workspace.mjs --json` to resolve `workspace_root`
 2. Run `node .cursor/skills/darin/scripts/context.mjs` to load PRODUCT + STRATEGY
 
-When the user invokes a sub-command (`/darin ingest`, `/darin plan`, `/darin insights`, etc.), read `.cursor/skills/darin/reference/<command>.md` next.
+When the user invokes a sub-command (`/darin ingest`, `/darin next`, `/darin insights`, etc.), read `.cursor/skills/darin/reference/<command>.md` next.
 
 **Never** infer workspace from git root. **Never** promote one-off anecdotes to strategy without user confirmation — durable writes to `hypotheses/` or `STRATEGY.md` always get a confirm step.

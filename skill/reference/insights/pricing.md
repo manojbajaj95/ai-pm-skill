@@ -1,19 +1,17 @@
-# Pricing recipe
+# Pricing nudge
 
-## What to find
+**PM question:** Is packaging aligned with segments, value metric, and how we want to monetize?
 
-Pricing page, plan tiers, feature matrices, billing copy, upgrade/downgrade language.
+## How to check
 
-## Recipe-specific checks
+Find pricing, plans, billing, and tier copy in the repo. Walk as the buyer segments in memory.
 
-1. **Tier logic** — do plan names and limits match how you actually want to segment users?
-2. **Who each plan targets** — can you name the ICP per tier? Does copy match `PRODUCT.md` Users?
-3. **Free tier / trial** — if present in code, is it deliberate per strategy or accidental drift?
-4. **Feature gating** — do gated features align with active `hypotheses/` bets?
-5. **Value metric** — is pricing tied to the value customers get (seats, usage, outcomes) or arbitrary?
+## What to look for
 
-## Common misalignments
+- Tier logic vs who each plan should serve
+- Value metric (seats, usage, outcomes) vs how customers get value
+- Try path visible in packaging (free tier, trial) vs trial motion in memory
+- Features gated or sold vs `What you're not doing`
+- Pricing story vs positioning and docs
 
-- Enterprise features on self-serve tier when strategy says PLG first
-- Missing tier for the segment interviews keep mentioning
-- Pricing page sells capabilities you're explicitly not building
+Apply gap moves from `product.md`. Classify as Opportunity, Bloat, or Improvement.

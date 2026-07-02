@@ -1,0 +1,34 @@
+{
+  "nudges": [
+    {
+      "id": "positioning",
+      "path": "reference/insights/positioning.md",
+      "helps_with": "Marketing & positioning — ICP, problem, promise, trust proof, outward messaging"
+    },
+    {
+      "id": "pricing",
+      "path": "reference/insights/pricing.md",
+      "helps_with": "Pricing & packaging — tiers, value metric, segment fit, monetization motion"
+    },
+    {
+      "id": "activation",
+      "path": "reference/insights/activation.md",
+      "helps_with": "Onboarding & activation — signup, first run, time-to-value, path to aha"
+    },
+    {
+      "id": "trial",
+      "path": "reference/insights/trial.md",
+      "helps_with": "Trial & evaluation motion — try-before-commit, guest access, eval friction, gating"
+    },
+    {
+      "id": "documentation",
+      "path": "reference/insights/documentation.md",
+      "helps_with": "Documentation & enablement — docs vs promise, getting started, stale claims"
+    },
+    {
+      "id": "scope",
+      "path": "reference/insights/scope.md",
+      "helps_with": "Product scope & focus — surface area, jargon, sprawl vs strategy and exclusions"
+    }
+  ]
+}

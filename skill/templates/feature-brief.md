@@ -34,4 +34,4 @@
 
 ## Suggested next step
 
-`/darin prioritize`
+Hand off to your coding agent using the prompt from `/darin next`.

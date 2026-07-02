@@ -1,5 +1,7 @@
 # Ingest flow
 
+**External stimuli** — not part of the product loop. File customer research, metrics, meetings, or notes so future `insights` runs are sharper.
+
 Route a new artifact into product memory. One verb, four shapes.
 
 ## Haven't talked to anyone yet?
@@ -61,7 +63,7 @@ Short summary in plain language:
 - 1–3 things worth remembering (and ask before saving any of them to long-term memory)
 - Anything that contradicts what you learned before (keep both, don't paper over it)
 - One open question if a judgment call is needed
-- Suggested next step: `plan` or `prioritize`
+- Suggested next step: `insights` (or `ingest` more if building evidence first)
 
 ## Anti-patterns
 

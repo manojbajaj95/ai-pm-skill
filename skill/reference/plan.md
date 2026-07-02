@@ -1,4 +1,6 @@
-# Plan flow
+# Plan flow (internal — use `next` command)
+
+> **Not user-facing.** The `next` command absorbs this flow. Kept for brief structure and agent reference.
 
 Turn a problem, opportunity, or bigger goal into a scoped **brief** you can build from right away.
 
@@ -41,6 +43,5 @@ Don't spin up a separate planning document for this — one scoped brief per goa
 
 ## Step 4: Hand off
 
-- If scope is clear and small → you can start building straight from this brief
+- If scope is clear and small → hand off to coding agent (see `reference/next.md`)
 - If discovery gaps remain → suggest `/darin ingest`
-- If you need to weigh this against other work → `/darin prioritize`

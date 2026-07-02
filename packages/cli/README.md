@@ -1,8 +1,8 @@
 # @getdarin/cli
 
-Installer for **Darin** — an AI product manager skill for Cursor, Claude Code, Codex, Gemini CLI, and other Agent Skills harnesses. Darin files what you learn into memory with sources cited, and keeps the *why* behind product decisions so it survives past the meeting where it was decided.
+Installer for **Darin** — a product improvement loop for Cursor, Claude Code, Codex, Gemini CLI, and other Agent Skills harnesses. Observe gaps (`insights`), pick the needle move (`next`), hand off to your coding agent.
 
-**[getdarin.com](https://getdarin.com)** · **[GitHub](https://github.com/manojbajaj95/darin-skill)**
+**[GitHub](https://github.com/manojbajaj95/darin-skill)** · **[npm](https://www.npmjs.com/package/@getdarin/cli)**
 
 ## Quick start
 
@@ -10,16 +10,17 @@ Installer for **Darin** — an AI product manager skill for Cursor, Claude Code,
 npx @getdarin/cli@latest install
 ```
 
-This auto-detects your harness (Cursor, Claude Code, Codex, Gemini, GitHub Copilot, …) in the current project, installs the skill, and scaffolds a product workspace under `~/.darin/` if none exists.
+This auto-detects your harness, installs the skill, and scaffolds a product workspace under `~/.darin/` if none exists.
 
 Then in your harness:
 
 ```
 /darin init
-/darin insights       # compare a product surface in the repo to product memory
-/darin ingest
-/darin plan
+/darin insights
+/darin next
 ```
+
+Your coding agent ships the brief. Run `insights` again to close the loop. Use `ingest` for external stimuli (customer research) — not part of the loop, but sharper insights.
 
 | Harness | Invoke |
 |---------|--------|
@@ -50,7 +51,7 @@ npx @getdarin/cli install --scope=global --providers=claude -y
 
 ## Where data lives
 
-Product memory lives in `~/.darin/` (markdown, no database) — never in your code repo. One workspace slug is shared across every repo for a product (landing, API, mobile, monorepo).
+Product memory lives in `~/.darin/` (markdown, no database) — never in your code repo.
 
 ```
 ~/.darin/
@@ -59,16 +60,15 @@ Product memory lives in `~/.darin/` (markdown, no database) — never in your co
     └── acme/
         ├── PRODUCT.md
         ├── STRATEGY.md
-        ├── source/
-        ├── ingestion/
-        ├── hypotheses/
-        └── insights/
+        ├── insights/
+        └── queue/
+            └── next.md
 ```
 
 ## Links
 
-- **Docs & install guide:** [getdarin.com](https://getdarin.com)
-- **Source:** [github.com/manojbajaj95/darin-skill](https://github.com/manojbajaj95/darin-skill) (package lives in [`packages/cli`](https://github.com/manojbajaj95/darin-skill/tree/main/packages/cli))
+- **Install guide:** [INSTALL_FOR_AGENTS.md](https://github.com/manojbajaj95/darin-skill/blob/main/INSTALL_FOR_AGENTS.md)
+- **Source:** [github.com/manojbajaj95/darin-skill](https://github.com/manojbajaj95/darin-skill)
 - **Changelog:** [CHANGELOG.md](https://github.com/manojbajaj95/darin-skill/blob/main/packages/cli/CHANGELOG.md)
 
 ## License

@@ -10,6 +10,14 @@ early
 
 [Who they are, context, job to be done]
 
+## How they evaluate
+
+[Self-serve try | dev install | demo | committee / security review — how they decide before buying]
+
+## Path to aha
+
+[What first value looks like, roughly — optional]
+
 ## Problem
 
 [What pain exists, why now]
