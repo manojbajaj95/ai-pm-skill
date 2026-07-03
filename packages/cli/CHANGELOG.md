@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6](https://github.com/manojbajaj95/darin-skill/compare/v0.1.5...v0.1.6) (2026-07-03)
+
+
+### Features
+
+* add roadmap command and simplify the product loop ([#12](https://github.com/manojbajaj95/darin-skill/issues/12)) ([d88b035](https://github.com/manojbajaj95/darin-skill/commit/d88b03577310990e3e1db7224ce30ff2c1c94053))
+
 ## [0.1.5](https://github.com/manojbajaj95/darin-skill/compare/v0.1.4...v0.1.5) (2026-07-01)
 
 
