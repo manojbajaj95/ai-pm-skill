@@ -13,5 +13,3 @@ Simulate try-before-commit: marketing CTA → signup/auth → first value. Inclu
 - Demo-only or sales-led path when memory says self-serve try
 - Evaluator walk blockers — where try motion stops cold
 - Alignment with pricing and activation surfaces
-
-Apply gap moves from `product.md`. Classify as Opportunity, Bloat, or Improvement.

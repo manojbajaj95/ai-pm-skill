@@ -23,7 +23,6 @@ Setup a **product workspace** under `~/.darin/workspaces/<slug>/`. Workspaces ar
         │   ├── market/
         │   └── adhoc/
         ├── hypotheses/
-        ├── features/
         ├── insights/
         ├── roadmap/
         │   └── roadmap.md

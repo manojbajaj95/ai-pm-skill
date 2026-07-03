@@ -30,20 +30,15 @@ init (goals + automation) → insights (suggestions) → next (hand off top item
 
 ## Examples
 
-- Bare invoke (`{{command_prefix}}darin`) — run `context-signals.mjs`, recommend 2–3 next steps in plain language; never auto-run one.
-- `{{command_prefix}}darin init` — set up workspace: interview, `PRODUCT.md` + `STRATEGY.md`, automation nudge.
-- `{{command_prefix}}darin insights` — compare product in this repo to memory; one suggestion file per finding.
+- Bare invoke (`{{command_prefix}}darin`) — run `context-signals.mjs`, recommend 2–3 next steps; never auto-run one.
 - `{{command_prefix}}darin insights pricing` — optional focus phrase; agent auto-picks relevant nudges.
-- `{{command_prefix}}darin roadmap` — rank latest suggestions and write brief for the top item.
-- `{{command_prefix}}darin next` — hand off the top roadmap item to your coding agent.
-- `{{command_prefix}}darin ingest notes/interview-acme.md` — file research into memory.
 
 ## Setup
 
 Before proceeding:
 
-1. Run `node {{scripts_path}}/workspace.mjs --json` to resolve the active workspace under `~/.darin/workspaces/<slug>/` (use `--list --json` first if you need to see available workspaces). Then run `node {{scripts_path}}/context.mjs` (pass `--slug` when the user names a product). If context reports `NO_ACTIVE_WORKSPACE` or `NO_PRODUCT_MD`, stop and follow `reference/init.md`.
-2. If the user invoked a sub-command (`init`, `ingest`, `insights`, `roadmap`, `next`, ...), read `reference/<command>.md` and follow it.
+1. Resolve workspace and context per `reference/init.md` Step 0 (`workspace.mjs --json`, then `context.mjs`). If `NO_ACTIVE_WORKSPACE` or `NO_PRODUCT_MD`, stop and follow `reference/init.md`.
+2. If the user invoked a sub-command, read `reference/<command>.md` and follow it.
 
 ## How Darin works (always apply)
 

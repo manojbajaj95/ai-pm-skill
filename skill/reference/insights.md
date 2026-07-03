@@ -27,22 +27,13 @@ Thin memory → say so; suggest `ingest`.
 
 ## Step 3: Auto-pick nudges
 
-From `nudges` in script output, auto-pick what aligns with memory, evidence, and optional `target`. Read each picked file under `reference/insights/<id>.md`.
-
-| id | helps_with |
-|----|------------|
-| positioning | Marketing & positioning — ICP, problem, promise, trust proof |
-| pricing | Pricing & packaging — tiers, value metric, segment fit |
-| activation | Onboarding & activation — signup, first run, path to aha |
-| trial | Trial & evaluation — try-before-commit, guest access, gating |
-| documentation | Documentation & enablement — docs vs promise, getting started |
-| scope | Product scope & focus — sprawl, jargon vs goals |
+From `nudges` in script output (catalog from `insights-nudges.json`), auto-pick what aligns with memory, evidence, and optional `target`. Read each picked file under `reference/insights/<id>.md`.
 
 User does not need to name a nudge.
 
 ## Step 4: Explore and produce suggestions
 
-Follow `product.md`:
+Follow `product.md` — apply gap moves (§4) and classify each finding as Opportunity, Bloat, or Improvement:
 
 1. Explore codebase (agent chooses files)
 2. Identify candidates via gap moves

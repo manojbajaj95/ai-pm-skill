@@ -13,5 +13,3 @@ Find pricing, plans, billing, and tier copy in the repo. Walk as the buyer segme
 - Try path visible in packaging (free tier, trial) vs trial motion in memory
 - Features gated or sold vs `What you're not doing`
 - Pricing story vs positioning and docs
-
-Apply gap moves from `product.md`. Classify as Opportunity, Bloat, or Improvement.

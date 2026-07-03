@@ -176,7 +176,6 @@ export async function ensureDefaultWorkspace({ slug = 'default', name = 'My prod
     'ingestion/market',
     'ingestion/adhoc',
     'hypotheses',
-    'features',
     'maintenance/log',
   ];
 
@@ -213,11 +212,8 @@ export async function ensureDefaultWorkspace({ slug = 'default', name = 'My prod
     `${JSON.stringify(
       {
         version: '0.3.0',
-        active_workspace: slug,
-        active_slug: slug,
         ...existing,
         active_workspace: slug,
-        active_slug: slug,
       },
       null,
       2,

@@ -11,39 +11,14 @@ import {
   resolveSlug,
   workspaceRoot,
 } from './lib/paths.mjs';
+import { exists, firstExisting, listMd, mtime, safeRead } from './lib/fs-utils.mjs';
+import { insightSessionsForSignals } from './lib/insights-sessions.mjs';
+import { readRoadmapLoop } from './lib/roadmap.mjs';
 
 const STALE_DAYS = 30;
 const MS_DAY = 86400000;
-
-function exists(p) {
-  try {
-    fs.accessSync(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function mtime(filePath) {
-  try {
-    return fs.statSync(filePath).mtimeMs;
-  } catch {
-    return 0;
-  }
-}
-
-function listMd(dir) {
-  if (!exists(dir)) return [];
-  return fs.readdirSync(dir).filter(f => f.endsWith('.md') && !f.startsWith('_'));
-}
-
-function safeRead(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8');
-  } catch {
-    return '';
-  }
-}
+const PRODUCT_NAMES = ['PRODUCT.md', 'Product.md'];
+const STRATEGY_NAMES = ['STRATEGY.md', 'Strategy.md'];
 
 function walkIngestion(root) {
   const base = path.join(root, 'ingestion');
@@ -93,9 +68,7 @@ function hasEmptySuccessMetrics(content) {
 
 function decisionDebt(root) {
   const hypDir = path.join(root, 'hypotheses');
-  const featDir = path.join(root, 'features');
   const missingMetrics = [];
-  const specsWithoutHypothesis = [];
 
   for (const f of listMd(hypDir)) {
     const p = path.join(hypDir, f);
@@ -109,76 +82,7 @@ function decisionDebt(root) {
     }
   }
 
-  if (exists(featDir)) {
-    for (const f of listMd(featDir)) {
-      const slug = f.replace(/\.md$/, '');
-      const hyp = path.join(hypDir, `${slug}.md`);
-      if (!exists(hyp)) {
-        specsWithoutHypothesis.push({ file: f, path: path.join(featDir, f) });
-      }
-    }
-  }
-
-  return { missingMetrics, specsWithoutHypothesis };
-}
-
-function listInsightSessions(root) {
-  const base = path.join(root, 'insights');
-  if (!exists(base)) return [];
-  const sessions = [];
-  for (const name of fs.readdirSync(base)) {
-    const d = path.join(base, name);
-    if (!fs.statSync(d).isDirectory()) continue;
-    const runPath = path.join(d, 'run.md');
-    const files = listMd(d).filter(f => f !== 'run.md');
-    sessions.push({
-      dir: `insights/${name}`,
-      has_run: exists(runPath),
-      insight_count: files.length,
-      mtime: Math.max(mtime(runPath), ...files.map(f => mtime(path.join(d, f)))),
-    });
-  }
-  sessions.sort((a, b) => b.mtime - a.mtime);
-  return sessions;
-}
-
-function readRoadmapLoop(root) {
-  const roadmapPath = path.join(root, 'roadmap', 'roadmap.md');
-  if (!exists(roadmapPath)) {
-    return { exists: false, active_status: null, up_next_count: 0, needs_roadmap: true };
-  }
-  const content = safeRead(roadmapPath);
-  const nowMatch = content.match(/## Now\s*\n([\s\S]*?)(?=\n## |\s*$)/i);
-  const nowSection = nowMatch?.[1] || '';
-  const statusMatch = nowSection.match(/^Status:\s*(.+)$/m);
-  const upNextMatch = content.match(/## Up next\s*\n([\s\S]*?)(?=\n## |\s*$)/i);
-  const upNextSection = upNextMatch?.[1] || '';
-  const upNextRows = upNextSection
-    .split('\n')
-    .filter(l => l.trim().startsWith('|') && !/^\|[\s\-:|]+\|$/.test(l.trim()))
-    .slice(1);
-  const updatedRaw = content.match(/^Updated:\s*(.+)$/m)?.[1]?.trim();
-  const updatedMs = updatedRaw ? Date.parse(updatedRaw) : null;
-  const insightsDir = path.join(root, 'insights');
-  let latestInsightsMtime = 0;
-  if (exists(insightsDir)) {
-    for (const name of fs.readdirSync(insightsDir)) {
-      const d = path.join(insightsDir, name);
-      if (!fs.statSync(d).isDirectory()) continue;
-      for (const f of listMd(d)) {
-        latestInsightsMtime = Math.max(latestInsightsMtime, mtime(path.join(d, f)));
-      }
-    }
-  }
-  const needs_roadmap =
-    !updatedMs || Number.isNaN(updatedMs) || latestInsightsMtime > updatedMs;
-  return {
-    exists: true,
-    path: 'roadmap/roadmap.md',
-    active_status: statusMatch?.[1]?.trim() || null,
-    up_next_count: upNextRows.length,
-    needs_roadmap,
-  };
+  return { missingMetrics, specsWithoutHypothesis: [] };
 }
 
 function openTensions(root, now) {
@@ -207,6 +111,8 @@ const opts = parsePathArgs(process.argv);
 const slug = resolveSlug(opts);
 const root = workspaceRoot(opts);
 const now = Date.now();
+const insightSessions = root ? insightSessionsForSignals(root) : [];
+const latestInsightsMtime = insightSessions[0]?.mtime ?? 0;
 
 const signals = {
   darin_home: darinHome(),
@@ -216,8 +122,8 @@ const signals = {
   workspaces: listWorkspaces(),
   setup: {
     hasActiveWorkspace: !!slug,
-    hasProduct: root ? exists(path.join(root, 'PRODUCT.md')) : false,
-    hasStrategy: root ? exists(path.join(root, 'STRATEGY.md')) : false,
+    hasProduct: root ? !!firstExisting(root, PRODUCT_NAMES) : false,
+    hasStrategy: root ? !!firstExisting(root, STRATEGY_NAMES) : false,
     hasHypotheses: root ? listMd(path.join(root, 'hypotheses')).length > 0 : false,
   },
   ingestion: root
@@ -228,9 +134,9 @@ const signals = {
     : { stale: [], count: 0 },
   loop: root
     ? {
-        insights_sessions: listInsightSessions(root),
-        latest_insights: listInsightSessions(root)[0] || null,
-        roadmap: readRoadmapLoop(root),
+        insights_sessions: insightSessions,
+        latest_insights: insightSessions[0] || null,
+        roadmap: readRoadmapLoop(root, latestInsightsMtime),
       }
     : {
         insights_sessions: [],

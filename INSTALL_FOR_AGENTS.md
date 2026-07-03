@@ -149,7 +149,6 @@ This creates `~/.darin/workspaces/acme/`, sets `active_workspace` in `~/.darin/c
     ├── source/{interviews,meetings,market,adhoc}/
     ├── ingestion/{interviews,meetings,market,adhoc}/
     ├── hypotheses/
-    ├── features/
     ├── insights/
     └── maintenance/log/
 ```

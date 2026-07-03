@@ -108,7 +108,6 @@ test('workspace scaffold creates roadmap directory', async () => {
   process.env.DARIN_HOME = home;
   try {
     const root = ensureWorkspaceScaffold('acme-test');
-    assert.ok(fs.existsSync(path.join(root, 'features')));
     assert.ok(fs.existsSync(path.join(root, 'insights')));
     assert.ok(fs.existsSync(path.join(root, 'roadmap')));
     assert.ok(!fs.existsSync(path.join(root, 'queue')));
@@ -202,7 +201,7 @@ test('roadmap-route fails without insights session', () => {
   assert.equal(payload.roadmap_path, 'roadmap/roadmap.md');
 });
 
-test('roadmap-route returns latest insights and needs_refresh', () => {
+test('roadmap-route returns latest insights and needs_roadmap', () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'darin-test-'));
   const root = path.join(home, 'workspaces', 'acme');
   const session = path.join(root, 'insights', '2026-07-02');
@@ -225,7 +224,7 @@ test('roadmap-route returns latest insights and needs_refresh', () => {
   const payload = JSON.parse(result.stdout);
   assert.equal(payload.latest_insights_dir, 'insights/2026-07-02');
   assert.equal(payload.insight_files.length, 1);
-  assert.equal(payload.needs_refresh, true);
+  assert.equal(payload.needs_roadmap, true);
   assert.equal(payload.roadmap.exists, false);
 });
 

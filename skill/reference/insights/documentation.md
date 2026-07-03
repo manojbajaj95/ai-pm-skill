@@ -13,5 +13,3 @@ Find README, docs, guides, getting-started content. Compare to positioning and w
 - Getting started path to first value without hand-holding
 - Docs emphasize strategy focus or document everything including non-goals?
 - Stale claims vs current product or ingestion notes
-
-Apply gap moves from `product.md`. Classify as Opportunity, Bloat, or Improvement.

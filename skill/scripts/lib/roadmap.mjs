@@ -2,18 +2,11 @@
  * Parse roadmap/roadmap.md and detect staleness vs latest insights.
  */
 import fs from 'node:fs';
+import path from 'node:path';
+import { exists } from './fs-utils.mjs';
 
 export const ROADMAP_PATH = 'roadmap/roadmap.md';
 export const LEGACY_QUEUE_PATH = 'queue/next.md';
-
-function exists(p) {
-  try {
-    fs.accessSync(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 function parseDate(value) {
   if (!value) return null;
@@ -114,5 +107,48 @@ export function readLegacyQueue(queueAbs) {
     status: statusMatch?.[1]?.trim() || 'unknown',
     brief_path: briefMatch?.[1]?.trim() || null,
     source_insight: insightMatch?.[1]?.trim() || null,
+  };
+}
+
+export function resolveActiveItem(roadmap) {
+  if (roadmap.now?.item) {
+    return {
+      item: roadmap.now.item,
+      source_suggestion: roadmap.now.source_suggestion,
+      brief: roadmap.now.brief,
+      status: roadmap.now.status,
+    };
+  }
+  if (roadmap.top_queued) {
+    return {
+      item: roadmap.top_queued.item,
+      source_suggestion: roadmap.top_queued.source_suggestion,
+      brief: roadmap.top_queued.brief,
+      status: 'queued',
+    };
+  }
+  return null;
+}
+
+export function resolveTopItem(roadmap) {
+  const item = roadmap.top_queued?.item || roadmap.now?.item || null;
+  const brief = roadmap.top_queued?.brief || roadmap.now?.brief || null;
+  return {
+    top_item: item,
+    top_has_brief: !!(brief && brief !== '—'),
+  };
+}
+
+export function readRoadmapLoop(root, latestInsightsMtime = 0) {
+  const summary = readRoadmapSummary(path.join(root, ROADMAP_PATH));
+  if (!summary.exists) {
+    return { exists: false, active_status: null, up_next_count: 0, needs_roadmap: true };
+  }
+  return {
+    exists: true,
+    path: ROADMAP_PATH,
+    active_status: summary.now?.status ?? null,
+    up_next_count: summary.up_next_count,
+    needs_roadmap: roadmapIsStale(summary, latestInsightsMtime),
   };
 }

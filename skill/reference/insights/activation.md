@@ -13,5 +13,3 @@ Simulate first-run from signup through first meaningful outcome. Find signup, we
 - Drop-off themes from ingestion still present in flow?
 - Flow optimizes for north star vs vanity setup?
 - Time-to-value vs strategy focus
-
-Apply gap moves from `product.md`. Classify as Opportunity, Bloat, or Improvement.

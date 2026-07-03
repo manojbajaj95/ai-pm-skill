@@ -4,6 +4,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parsePathArgs, workspaceRoot } from './lib/paths.mjs';
+import { today } from './lib/fs-utils.mjs';
+import { exitNoActiveWorkspace } from './lib/route-args.mjs';
 
 const SHAPE_DIRS = {
   interview: 'interviews',
@@ -45,10 +47,6 @@ function classify(text, hint) {
   return { shape: 'adhoc', confidence: 'default' };
 }
 
-function shapeDir(shape) {
-  return SHAPE_DIRS[shape] || shape;
-}
-
 function slugFrom(text, file) {
   if (file) {
     return path.basename(file, path.extname(file)).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 48);
@@ -57,27 +55,15 @@ function slugFrom(text, file) {
   return words.replace(/[^a-z0-9-]/g, '').slice(0, 48) || 'note';
 }
 
-function today() {
-  return new Date().toISOString().slice(0, 10);
-}
-
 const args = parseIngestArgs(process.argv);
 const storageRoot = workspaceRoot(args);
 
-if (!storageRoot) {
-  const err = { error: 'NO_ACTIVE_WORKSPACE', message: 'Run `/darin init` or set active_workspace in ~/.darin/config.json' };
-  if (args.json) {
-    console.log(JSON.stringify(err, null, 2));
-  } else {
-    console.error(err.message);
-  }
-  process.exit(1);
-}
+if (!storageRoot) exitNoActiveWorkspace({ json: args.json });
 
 const { shape, confidence } = classify(args.text, args.hint);
 const slug = slugFrom(args.text, args.file);
 const date = today();
-const dir = shapeDir(shape);
+const dir = SHAPE_DIRS[shape] || shape;
 
 const rel = {
   source: `source/${dir}/${date}-${slug}.md`,

@@ -13,5 +13,3 @@ Inventory in-product and outward surface area: nav, feature lists, step counts, 
 - Too many paths before aha when memory emphasizes speed to value
 - Surfaces that sell or expose capabilities strategy deprioritizes
 - Bloat vs missing — over-emphasis, not absence
-
-Apply gap moves from `product.md`. Classify as **Bloat** or **Improvement** most often; **Opportunity** when focus area is under-represented.

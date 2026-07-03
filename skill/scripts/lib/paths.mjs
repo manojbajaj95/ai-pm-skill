@@ -65,7 +65,7 @@ export function activeWorkspaceFromConfig() {
 
 export function setActiveWorkspace(slug) {
   const s = slugify(slug);
-  saveGlobalConfig({ active_workspace: s, active_slug: s });
+  saveGlobalConfig({ active_workspace: s });
   return s;
 }
 
@@ -90,6 +90,7 @@ export function workspacePath(slug) {
 }
 
 export function listWorkspaces() {
+  const active = activeWorkspaceFromConfig();
   return listWorkspaceSlugs().map(slug => {
     const root = workspacePath(slug);
     let displayName = slug;
@@ -100,8 +101,6 @@ export function listWorkspaces() {
         displayName = m.name || m.product_name || slug;
       } catch { /* ignore */ }
     }
-    const cfg = loadGlobalConfig();
-    const active = activeWorkspaceFromConfig();
     return {
       slug,
       name: displayName,
@@ -152,7 +151,6 @@ export function ensureWorkspaceScaffold(slug, meta = {}) {
     'ingestion/market',
     'ingestion/adhoc',
     'hypotheses',
-    'features',
     'insights',
     'roadmap',
     'maintenance/log',
@@ -162,9 +160,12 @@ export function ensureWorkspaceScaffold(slug, meta = {}) {
   }
 
   const manifest = manifestPath(root);
-  const existing = fs.existsSync(manifest)
-    ? JSON.parse(fs.readFileSync(manifest, 'utf8'))
-    : {};
+  let existing = {};
+  if (fs.existsSync(manifest)) {
+    try {
+      existing = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+    } catch { /* ignore corrupt manifest */ }
+  }
   fs.writeFileSync(
     manifest,
     `${JSON.stringify(
@@ -202,8 +203,3 @@ export function parsePathArgs(argv) {
   return out;
 }
 
-// Aliases used by older call sites
-export const productRoot = workspaceRoot;
-export const listProducts = listWorkspaces;
-export const resolveWorkspaceId = resolveSlug;
-export const ensureProductScaffold = ensureWorkspaceScaffold;

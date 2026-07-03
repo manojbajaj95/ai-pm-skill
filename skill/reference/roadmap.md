@@ -15,7 +15,7 @@ Optional: `--cwd` if not repo root. `--item` re-briefs one roadmap item without 
 
 If `NO_INSIGHTS`, stop and run `insights` first.
 
-Returns: `workspace_root`, `latest_insights_dir`, `insight_files`, `roadmap_path`, `roadmap`, `needs_refresh`, `top_item`, `top_has_brief`.
+Returns: `workspace_root`, `latest_insights_dir`, `insight_files`, `roadmap_path`, `roadmap`, `needs_roadmap`, `top_item`, `top_has_brief`.
 
 ## Step 2: Load context
 

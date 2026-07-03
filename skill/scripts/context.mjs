@@ -1,7 +1,6 @@
 /**
  * Load PRODUCT.md and STRATEGY.md from ~/.darin/workspaces/<slug>/
  */
-import fs from 'node:fs';
 import path from 'node:path';
 import {
   activeWorkspaceFromConfig,
@@ -11,31 +10,10 @@ import {
   resolveSlug,
   workspaceRoot,
 } from './lib/paths.mjs';
+import { firstExisting, listMd, safeRead } from './lib/fs-utils.mjs';
 
 const PRODUCT_NAMES = ['PRODUCT.md', 'Product.md'];
 const STRATEGY_NAMES = ['STRATEGY.md', 'Strategy.md'];
-
-function firstExisting(dir, names) {
-  for (const name of names) {
-    const p = path.join(dir, name);
-    if (fs.existsSync(p)) return p;
-  }
-  return null;
-}
-
-function safeRead(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8').trim();
-  } catch {
-    return null;
-  }
-}
-
-function listHypotheses(root) {
-  const dir = path.join(root, 'hypotheses');
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter(f => f.endsWith('.md') && !f.startsWith('_'));
-}
 
 const opts = parsePathArgs(process.argv);
 const slug = resolveSlug(opts);
@@ -76,9 +54,9 @@ if (!productPath) {
 }
 
 const strategyPath = firstExisting(root, STRATEGY_NAMES);
-const product = safeRead(productPath);
-const strategy = strategyPath ? safeRead(strategyPath) : null;
-const hypotheses = listHypotheses(root);
+const product = safeRead(productPath, { trim: true, fallback: null });
+const strategy = strategyPath ? safeRead(strategyPath, { trim: true, fallback: null }) : null;
+const hypotheses = listMd(path.join(root, 'hypotheses'));
 
 console.log('# Darin context\n');
 console.log(`Darin home: \`${darinHome()}\``);
